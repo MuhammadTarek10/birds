@@ -46,13 +46,15 @@ class EnvVars {
   @IsNotEmpty()
   JWT_REFRESH_SECRET!: string;
 
-  @IsString()
+  @IsInt()
+  @Min(1000)
   @IsOptional()
-  JWT_ACCESS_TTL?: string;
+  JWT_ACCESS_TTL_MS?: number;
 
-  @IsString()
+  @IsInt()
+  @Min(1000)
   @IsOptional()
-  JWT_REFRESH_TTL?: string;
+  JWT_REFRESH_TTL_MS?: number;
 
   @ValidateIf((o: EnvVars) => o.NODE_ENV === NodeEnv.Production)
   @IsString()

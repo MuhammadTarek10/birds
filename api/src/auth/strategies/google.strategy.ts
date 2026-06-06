@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Profile, Strategy } from 'passport-google-oauth20';
+import { CONFIG } from '../../config/config.constants';
 
 export type GoogleUser = {
   providerUserId: string;
@@ -16,9 +17,9 @@ export type GoogleUser = {
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   constructor(config: ConfigService) {
     super({
-      clientID: config.get<string>('google.clientId') ?? '',
-      clientSecret: config.get<string>('google.clientSecret') ?? '',
-      callbackURL: config.get<string>('google.redirectUri') ?? '',
+      clientID: config.get<string>(CONFIG.google.clientId) ?? '',
+      clientSecret: config.get<string>(CONFIG.google.clientSecret) ?? '',
+      callbackURL: config.get<string>(CONFIG.google.redirectUri) ?? '',
       scope: ['email', 'profile'],
     });
   }
