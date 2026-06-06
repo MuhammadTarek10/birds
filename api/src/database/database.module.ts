@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { drizzle, NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 import * as schema from './schema';
+import { TransactionManager } from './transaction-manager';
 
 export const DRIZZLE_DB = Symbol('DRIZZLE_DB');
 export const PG_POOL = Symbol('PG_POOL');
@@ -25,8 +26,9 @@ export type Database = NodePgDatabase<typeof schema>;
       inject: [PG_POOL],
       useFactory: (pool: Pool): Database => drizzle(pool, { schema }),
     },
+    TransactionManager,
   ],
-  exports: [DRIZZLE_DB, PG_POOL],
+  exports: [DRIZZLE_DB, PG_POOL, TransactionManager],
 })
 export class DatabaseModule implements OnModuleDestroy {
   constructor(@Inject(PG_POOL) private readonly pool: Pool) {}

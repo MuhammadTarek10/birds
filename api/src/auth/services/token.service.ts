@@ -1,15 +1,13 @@
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { randomBytes, createHash } from 'crypto';
-import { and, eq, isNull } from 'drizzle-orm';
+import { createHash, randomBytes } from 'crypto';
 import { CONFIG } from '../../config/config.constants';
-import { DRIZZLE_DB, type Database } from '../../database/database.module';
-import { sessions } from '../../database/schema';
 import {
   IssueSessionInput,
   IssueSessionResult,
 } from '../dto/issue-session.input';
+import { SessionsRepository } from '../repositories/sessions.repository';
 import type { AccessPayload, RefreshPayload } from '../types';
 
 const sha256 = (s: string) => createHash('sha256').update(s).digest('hex');
@@ -22,7 +20,7 @@ export class TokenService {
   private readonly refreshTtlMs: number;
 
   constructor(
-    @Inject(DRIZZLE_DB) private readonly db: Database,
+    private readonly sessions: SessionsRepository,
     private readonly jwt: JwtService,
     config: ConfigService,
   ) {
@@ -37,19 +35,14 @@ export class TokenService {
     const refreshHash = sha256(rawRefresh);
     const expiresAt = new Date(Date.now() + this.refreshTtlMs);
 
-    const [row] = await this.db
-      .insert(sessions)
-      .values({
-        authId: input.authId,
-        refreshTokenHash: refreshHash,
-        expiresAt,
-        ipAddress: input.ctx?.ipAddress,
-        userAgent: input.ctx?.userAgent,
-        deviceId: input.ctx?.deviceId,
-      })
-      .returning({ id: sessions.id });
-
-    const sessionId = row.id;
+    const sessionId = await this.sessions.insertActive({
+      authId: input.authId,
+      refreshTokenHash: refreshHash,
+      expiresAt,
+      ipAddress: input.ctx?.ipAddress,
+      userAgent: input.ctx?.userAgent,
+      deviceId: input.ctx?.deviceId,
+    });
 
     const accessPayload: AccessPayload = {
       userId: input.userId,
@@ -88,11 +81,7 @@ export class TokenService {
   }
 
   async assertSessionActive(sessionId: string): Promise<{ authId: string }> {
-    const [row] = await this.db
-      .select({ authId: sessions.authId, expiresAt: sessions.expiresAt })
-      .from(sessions)
-      .where(and(eq(sessions.id, sessionId), isNull(sessions.revokedAt)))
-      .limit(1);
+    const row = await this.sessions.findActive(sessionId);
     if (!row) throw new UnauthorizedException('Session revoked');
     if (row.expiresAt.getTime() < Date.now()) {
       throw new UnauthorizedException('Session expired');
@@ -101,9 +90,6 @@ export class TokenService {
   }
 
   async revokeSession(sessionId: string): Promise<void> {
-    await this.db
-      .update(sessions)
-      .set({ revokedAt: new Date() })
-      .where(and(eq(sessions.id, sessionId), isNull(sessions.revokedAt)));
+    await this.sessions.revoke(sessionId);
   }
 }
