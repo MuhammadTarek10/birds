@@ -83,6 +83,31 @@ await this.tm.run(async () => {
 
 `tm.run` is reentrant — nesting reuses the outer transaction.
 
+## API docs
+
+Swagger UI is mounted at `/api/docs` when `ENABLE_DOCS=true` (default in dev, off in production). Behind the scenes:
+
+- Spec is generated from `@nestjs/swagger` decorators on controllers + DTOs.
+- All successful responses are wrapped by the global `ResponseInterceptor` (`src/common/interceptors/response.interceptor.ts`) into `{ data, message, status }` using `ResponseDto` (`src/common/dto/response.dto.ts`). Controllers return raw payloads; the interceptor handles the envelope.
+- Per-handler messages come from `@ResponseMessage('…')` (`src/common/decorators/response-message.decorator.ts`). Default is `'Operation successful'`.
+- Handlers that return `undefined`/`null` (e.g. `204 No Content`, redirect handlers using `@Res()`) are passed through unwrapped.
+- Error responses follow the shape emitted by `HttpExceptionFilter` (`src/common/dto/error.response.ts`).
+
+To regenerate the spec for the frontend repo:
+
+```bash
+npm run docs:generate   # writes docs/openapi.json
+```
+
+### Conventions for new controllers
+
+1. `@ApiTags('Feature')` + `@ApiCookieAuth('cookie-auth')` on the controller. Public endpoints add `@ApiSecurity({})`.
+2. Every handler gets `@ApiOperation` + `@ApiResponse({ status, type })` per documented status code.
+3. Request DTOs: add `@ApiProperty` / `@ApiPropertyOptional` next to each `class-validator` rule.
+4. Response payload DTOs live in `src/<feature>/dto/responses/<name>.response.ts`.
+5. For each endpoint also create `<name>.envelope.ts` so `@ApiResponse({ type: SomeEnvelope })` carries the full `{ data, message, status }` shape (Swagger can't infer generics).
+6. Controllers return the raw payload (e.g. `return { id, email, role }`) and use `@ResponseMessage('…')` for the message; the global `ResponseInterceptor` wraps it.
+
 ## Roadmap
 
 Completed: **Foundation** (schema, config, migrations, health) · **Auth** (local + Google + JWT/sessions).

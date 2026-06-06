@@ -5,6 +5,8 @@ import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+import { CONFIG } from './config/config.constants';
+import { mountSwagger } from './docs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -26,6 +28,10 @@ async function bootstrap() {
   );
   app.useGlobalFilters(new HttpExceptionFilter());
   app.enableShutdownHooks();
+
+  if (config.get<boolean>(CONFIG.app.enableDocs)) {
+    mountSwagger(app);
+  }
 
   const port = config.get<number>('app.port') ?? 3000;
   await app.listen(port);
