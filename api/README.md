@@ -67,6 +67,22 @@ Token transport: httpOnly cookies `mv_access` + `mv_refresh`, `SameSite=Lax`, `P
 
 All other routes are protected by a global `JwtAuthGuard`; opt-out with `@Public()`.
 
+### Repositories & Unit of Work
+
+Services never touch Drizzle or `database/schema` directly. Each feature module owns its repositories under `src/<feature>/repositories/`, extending `BaseRepository` (in `src/database/base-repository.ts`). Repositories read their executor from `TransactionManager.current()` so the same code works inside and outside a transaction.
+
+Multi-table writes are wrapped with the UoW:
+
+```ts
+await this.tm.run(async () => {
+  const user = await this.users.insert(...);
+  await this.profiles.insert({ userId: user.id, ... });
+  await this.creds.insertLocal({ userId: user.id, passwordHash });
+});
+```
+
+`tm.run` is reentrant — nesting reuses the outer transaction.
+
 ## Roadmap
 
 Completed: **Foundation** (schema, config, migrations, health) · **Auth** (local + Google + JWT/sessions).
