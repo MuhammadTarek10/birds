@@ -1,14 +1,12 @@
 import { Global, Inject, Module, OnModuleDestroy } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { drizzle, NodePgDatabase } from 'drizzle-orm/node-postgres';
+import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 import * as schema from './schema';
+import { DRIZZLE_DB, PG_POOL, type Database } from './tokens';
 import { TransactionManager } from './transaction-manager';
 
-export const DRIZZLE_DB = Symbol('DRIZZLE_DB');
-export const PG_POOL = Symbol('PG_POOL');
-
-export type Database = NodePgDatabase<typeof schema>;
+export { DRIZZLE_DB, PG_POOL, type Database } from './tokens';
 
 @Global()
 @Module({

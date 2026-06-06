@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { AsyncLocalStorage } from 'async_hooks';
-import { DRIZZLE_DB, type Database } from './database.module';
+import { DRIZZLE_DB, type Database } from './tokens';
 
 type TxStore = { tx: Database };
 

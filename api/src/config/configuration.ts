@@ -13,6 +13,10 @@ export const configuration = () => ({
     port: num(ENV_KEYS.PORT, DEFAULTS.PORT),
     appUrl: process.env[ENV_KEYS.APP_URL] ?? DEFAULTS.APP_URL,
     webOrigin: process.env[ENV_KEYS.WEB_ORIGIN] ?? DEFAULTS.WEB_ORIGIN,
+    enableDocs: (
+      process.env[ENV_KEYS.ENABLE_DOCS] ??
+      (process.env[ENV_KEYS.NODE_ENV] === 'production' ? 'false' : 'true')
+    ).toLowerCase() === 'true',
   },
   db: {
     url: process.env[ENV_KEYS.DATABASE_URL]!,

@@ -1,4 +1,4 @@
-import type { Database } from './database.module';
+import type { Database } from './tokens';
 import { TransactionManager } from './transaction-manager';
 
 export abstract class BaseRepository {

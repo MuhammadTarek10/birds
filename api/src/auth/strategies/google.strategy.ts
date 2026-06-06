@@ -17,9 +17,14 @@ export type GoogleUser = {
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   constructor(config: ConfigService) {
     super({
-      clientID: config.get<string>(CONFIG.google.clientId) ?? '',
-      clientSecret: config.get<string>(CONFIG.google.clientSecret) ?? '',
-      callbackURL: config.get<string>(CONFIG.google.redirectUri) ?? '',
+      clientID:
+        config.get<string>(CONFIG.google.clientId) || 'unset-google-client-id',
+      clientSecret:
+        config.get<string>(CONFIG.google.clientSecret) ||
+        'unset-google-client-secret',
+      callbackURL:
+        config.get<string>(CONFIG.google.redirectUri) ||
+        'http://localhost/api/auth/google/callback',
       scope: ['email', 'profile'],
     });
   }

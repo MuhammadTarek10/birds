@@ -4,6 +4,7 @@ export const CONFIG = {
     port: 'app.port',
     appUrl: 'app.appUrl',
     webOrigin: 'app.webOrigin',
+    enableDocs: 'app.enableDocs',
   },
   db: {
     url: 'db.url',
@@ -33,6 +34,7 @@ export const ENV_KEYS = {
   PORT: 'PORT',
   APP_URL: 'APP_URL',
   WEB_ORIGIN: 'WEB_ORIGIN',
+  ENABLE_DOCS: 'ENABLE_DOCS',
   DATABASE_URL: 'DATABASE_URL',
   JWT_ACCESS_SECRET: 'JWT_ACCESS_SECRET',
   JWT_REFRESH_SECRET: 'JWT_REFRESH_SECRET',
