@@ -35,6 +35,10 @@ class EnvVars {
   WEB_ORIGIN?: string;
 
   @IsString()
+  @IsOptional()
+  ENABLE_DOCS?: string;
+
+  @IsString()
   @IsNotEmpty()
   DATABASE_URL!: string;
 
