@@ -6,6 +6,7 @@ import {
   IsOptional,
   IsString,
   Min,
+  ValidateIf,
   validateSync,
 } from 'class-validator';
 
@@ -53,16 +54,19 @@ class EnvVars {
   @IsOptional()
   JWT_REFRESH_TTL?: string;
 
+  @ValidateIf((o: EnvVars) => o.NODE_ENV === NodeEnv.Production)
   @IsString()
-  @IsOptional()
+  @IsNotEmpty()
   GOOGLE_OAUTH_CLIENT_ID?: string;
 
+  @ValidateIf((o: EnvVars) => o.NODE_ENV === NodeEnv.Production)
   @IsString()
-  @IsOptional()
+  @IsNotEmpty()
   GOOGLE_OAUTH_CLIENT_SECRET?: string;
 
+  @ValidateIf((o: EnvVars) => o.NODE_ENV === NodeEnv.Production)
   @IsString()
-  @IsOptional()
+  @IsNotEmpty()
   GOOGLE_OAUTH_REDIRECT_URI?: string;
 
   @IsString()

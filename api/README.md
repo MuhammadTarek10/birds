@@ -51,14 +51,29 @@ Health check:
 curl http://localhost:3000/api/health
 ```
 
+## Auth
+
+Token transport: httpOnly cookies `mv_access` + `mv_refresh`, `SameSite=Lax`, `Path=/api`. Frontend must send requests with `credentials: 'include'`.
+
+| Method | Path                          | Auth     | Body                                       | Notes                                                          |
+| ------ | ----------------------------- | -------- | ------------------------------------------ | -------------------------------------------------------------- |
+| POST   | `/api/auth/register`          | public   | `{ email, password, firstName?, lastName?}` | Creates user + local auth, issues cookies.                     |
+| POST   | `/api/auth/login`             | public   | `{ email, password }`                      | Locks account after 5 failures for 15 minutes.                 |
+| POST   | `/api/auth/refresh`           | public   | —                                          | Rotates session, sets new cookies. Reads `mv_refresh` cookie.   |
+| POST   | `/api/auth/logout`            | required | —                                          | Revokes current session, clears cookies.                       |
+| GET    | `/api/auth/me`                | required | —                                          | Returns user + profile.                                         |
+| GET    | `/api/auth/google`            | public   | —                                          | Redirects to Google OAuth.                                      |
+| GET    | `/api/auth/google/callback`   | public   | —                                          | Issues cookies and redirects to `${WEB_ORIGIN}/auth/callback`. |
+
+All other routes are protected by a global `JwtAuthGuard`; opt-out with `@Public()`.
+
 ## Roadmap
 
-Current milestone: **Foundation** (schema, config, migrations, health).
+Completed: **Foundation** (schema, config, migrations, health) · **Auth** (local + Google + JWT/sessions).
 
 Next milestones (in order):
 
-1. Auth — email/password + Google OAuth, JWT access + refresh against `sessions`.
-2. Pods + membership + invite codes.
-3. Memories CRUD with feed + calendar queries.
-4. Media — R2 presigned URLs + `memories_media` linking.
-5. Engagement — comments and tags endpoints.
+1. Pods + membership + invite codes.
+2. Memories CRUD with feed + calendar queries.
+3. Media — R2 presigned URLs + `memories_media` linking.
+4. Engagement — comments and tags endpoints.
