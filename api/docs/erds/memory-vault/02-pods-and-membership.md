@@ -22,7 +22,7 @@ ALTER TABLE
     "pods" ADD CONSTRAINT "pods_code_unique" UNIQUE("code");
 
 CREATE TABLE "pod_members"(
-    "id" BIGINT NOT NULL,
+    "id" UUID NOT NULL,
     "pod_id" UUID NOT NULL,
     "user_id" UUID NOT NULL,
     "role" VARCHAR(255) NOT NULL,
