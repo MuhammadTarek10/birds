@@ -29,4 +29,15 @@ export class RegisterDto {
   @IsString()
   @MaxLength(120)
   lastName?: string;
+
+  @ApiPropertyOptional({
+    minLength: 16,
+    maxLength: 64,
+    description:
+      "Optional invite token; when present, joins the inviter's pod instead of auto-creating one.",
+  })
+  @IsOptional()
+  @IsString()
+  @MaxLength(64)
+  inviteToken?: string;
 }

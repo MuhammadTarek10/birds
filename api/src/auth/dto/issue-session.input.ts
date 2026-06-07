@@ -4,6 +4,7 @@ export class IssueSessionInput {
   userId!: string;
   authId!: string;
   role!: string;
+  email!: string;
   ctx?: SessionContext;
 }
 

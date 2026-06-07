@@ -49,6 +49,7 @@ export class TokenService {
       authId: input.authId,
       sessionId,
       role: input.role,
+      email: input.email,
     };
     const refreshPayload: RefreshPayload = { userId: input.userId, sessionId };
 

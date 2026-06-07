@@ -31,7 +31,6 @@ import { ErrorResponse } from '../common/dto/error.response';
 import type { PodContext } from '../common/types/request-with-pod';
 import { CurrentPod } from './current-pod.decorator';
 import { CreatePodDto } from './dto/create-pod.dto';
-import { JoinPodDto } from './dto/join-pod.dto';
 import { RenamePodDto } from './dto/rename-pod.dto';
 import { UpdateMemberRoleDto } from './dto/update-member-role.dto';
 import { PodListEnvelope } from './dto/responses/pod-list.envelope';
@@ -68,20 +67,6 @@ export class PodsController {
     return { pods };
   }
 
-  @Post('join')
-  @HttpCode(HttpStatus.OK)
-  @ResponseMessage('Joined pod')
-  @ApiOperation({ summary: 'Join a pod by invite code' })
-  @ApiOkResponse({ type: PodSummaryEnvelope })
-  @ApiNotFoundResponse({
-    type: ErrorResponse,
-    description: 'Invite code not found',
-  })
-  @ApiConflictResponse({ type: ErrorResponse, description: 'Already a member' })
-  async join(@Body() dto: JoinPodDto, @CurrentUser() user: CurrentUserPayload) {
-    return this.pods.joinByCode(dto.code, user.userId);
-  }
-
   @Get(':podId')
   @UseGuards(PodMembershipGuard)
   @ResponseMessage('Pod retrieved')
@@ -112,22 +97,6 @@ export class PodsController {
   ) {
     if (pod.role !== 'admin') throw new ForbiddenException('Admin only');
     return this.pods.renamePod(podId, dto.name, user.userId);
-  }
-
-  @Post(':podId/code/rotate')
-  @HttpCode(HttpStatus.OK)
-  @UseGuards(PodMembershipGuard)
-  @ResponseMessage('Pod code rotated')
-  @ApiOperation({ summary: 'Generate a new invite code (admin only)' })
-  @ApiOkResponse({ type: PodSummaryEnvelope })
-  @ApiForbiddenResponse({ type: ErrorResponse, description: 'Admin only' })
-  async rotateCode(
-    @Param('podId', ParseUUIDPipe) podId: string,
-    @CurrentUser() user: CurrentUserPayload,
-    @CurrentPod() pod: PodContext,
-  ) {
-    if (pod.role !== 'admin') throw new ForbiddenException('Admin only');
-    return this.pods.rotateCode(podId, user.userId);
   }
 
   @Get(':podId/members')

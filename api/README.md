@@ -71,21 +71,35 @@ All other routes are protected by a global `JwtAuthGuard`; opt-out with `@Public
 
 A pod is the tenant boundary — every memory, tag, comment, and media object lives inside one. The current user is identified via the global `JwtAuthGuard`; pod-scoped routes additionally use `PodMembershipGuard` (in `src/pods/guards/`) which resolves `:podId` from the path, checks `pod_members`, and attaches `PodContext` to the request. Handlers consume it via `@CurrentPod()`.
 
+On registration, a pod is automatically created for the new user (named `${firstName}'s memories`, or `${emailLocalPart}'s memories` when no first name is supplied) **unless** the register call includes a valid `inviteToken`, in which case the user joins the inviting pod instead. Either path runs inside one transaction (see UoW below) so register + pod assignment are atomic.
+
 | Method | Path                                  | Auth        | Body          | Notes                                                  |
 | ------ | ------------------------------------- | ----------- | ------------- | ------------------------------------------------------ |
 | POST   | `/api/pods`                           | user        | `{ name }`    | Creates pod; caller becomes `admin`.                   |
 | GET    | `/api/pods`                           | user        | —             | Pods the caller belongs to (with role + memberCount). |
-| POST   | `/api/pods/join`                      | user        | `{ code }`    | Join by invite code. 409 if already a member.          |
 | GET    | `/api/pods/:podId`                    | pod member  | —             | Single pod view from the caller's perspective.         |
 | PATCH  | `/api/pods/:podId`                    | pod admin   | `{ name }`    | Rename.                                                |
-| POST   | `/api/pods/:podId/code/rotate`        | pod admin   | —             | Generates a fresh invite code; invalidates the old.    |
 | GET    | `/api/pods/:podId/members`            | pod member  | —             | All members with their user summary.                   |
 | PATCH  | `/api/pods/:podId/members/:userId`    | pod admin   | `{ role }`    | Promote / demote. Last admin protected (409).          |
 | DELETE | `/api/pods/:podId/members/:userId`    | admin or self | —           | 204 on success. Last admin protected.                  |
 
-Invite codes are 10-char nanoids over an unambiguous alphabet (`23456789ABCDEFGHJKLMNPQRSTUVWXYZ`); generation lives in `src/pods/utils/code.ts`.
+`pods.code` is a 10-char nanoid over an unambiguous alphabet (`23456789ABCDEFGHJKLMNPQRSTUVWXYZ`) used as a stable display slug — **not** as a join token. To add members, use the Invites flow.
 
 For new feature modules that need pod-scoped routes: import `PodMembershipGuard` (exported from `PodsModule`), apply via `@UseGuards(PodMembershipGuard)` on any handler with a `:podId` param, then read membership via `@CurrentPod()`.
+
+## Invites
+
+Pod admins issue single-use invite tokens. Tokens are 32-char base64url strings (192 bits of entropy). Each invite can optionally target a specific email — the redeemer's account email must match (case-insensitive). Default TTL is 7 days; configurable via `expiresInHours` (1..720) on create.
+
+| Method | Path                                       | Auth      | Body                          | Notes                                                                      |
+| ------ | ------------------------------------------ | --------- | ----------------------------- | -------------------------------------------------------------------------- |
+| POST   | `/api/pods/:podId/invites`                 | pod admin | `{ email?, expiresInHours? }` | Creates an invite. Response includes `token` and a frontend `inviteUrl`.   |
+| GET    | `/api/pods/:podId/invites`                 | pod admin | —                             | List all invites for the pod (active, redeemed, revoked, expired).         |
+| DELETE | `/api/pods/:podId/invites/:inviteId`       | pod admin | —                             | Revoke a still-active invite. 204.                                          |
+| GET    | `/api/invites/:token`                      | public    | —                             | Preview the pod name for an invite landing page. 410 if invalid.            |
+| POST   | `/api/invites/redeem`                      | user      | `{ token }`                   | Redeem as the logged-in user (already-registered flow).                     |
+
+Unregistered users include the token on `POST /api/auth/register { inviteToken }` to join the pod as part of signup. The invite URL is composed as `${WEB_ORIGIN}/invite/${token}` — server doesn't send email; the admin shares it manually for now.
 
 ### Repositories & Unit of Work
 

@@ -25,15 +25,6 @@ export class PodsRepository extends BaseRepository {
     return row ?? null;
   }
 
-  async findByCode(code: string): Promise<PodRow | null> {
-    const [row] = await this.db()
-      .select({ id: pods.id, name: pods.name, code: pods.code })
-      .from(pods)
-      .where(eq(pods.code, code))
-      .limit(1);
-    return row ?? null;
-  }
-
   async insert(values: InferInsertModel<typeof pods>): Promise<PodRow> {
     const [row] = await this.db()
       .insert(pods)
@@ -46,15 +37,6 @@ export class PodsRepository extends BaseRepository {
     const [row] = await this.db()
       .update(pods)
       .set({ name })
-      .where(eq(pods.id, podId))
-      .returning({ id: pods.id, name: pods.name, code: pods.code });
-    return row ?? null;
-  }
-
-  async updateCode(podId: string, code: string): Promise<PodRow | null> {
-    const [row] = await this.db()
-      .update(pods)
-      .set({ code })
       .where(eq(pods.id, podId))
       .returning({ id: pods.id, name: pods.name, code: pods.code });
     return row ?? null;
