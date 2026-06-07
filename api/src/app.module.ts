@@ -4,6 +4,7 @@ import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { AuthModule } from './auth/auth.module';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
+import { PodsModule } from './pods/pods.module';
 import { configuration } from './config/configuration';
 import { validateEnv } from './config/env.validation';
 import { DatabaseModule } from './database/database.module';
@@ -18,6 +19,7 @@ import { HealthModule } from './health/health.module';
     }),
     DatabaseModule,
     AuthModule,
+    PodsModule,
     HealthModule,
   ],
   providers: [

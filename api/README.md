@@ -67,6 +67,26 @@ Token transport: httpOnly cookies `mv_access` + `mv_refresh`, `SameSite=Lax`, `P
 
 All other routes are protected by a global `JwtAuthGuard`; opt-out with `@Public()`.
 
+## Pods
+
+A pod is the tenant boundary — every memory, tag, comment, and media object lives inside one. The current user is identified via the global `JwtAuthGuard`; pod-scoped routes additionally use `PodMembershipGuard` (in `src/pods/guards/`) which resolves `:podId` from the path, checks `pod_members`, and attaches `PodContext` to the request. Handlers consume it via `@CurrentPod()`.
+
+| Method | Path                                  | Auth        | Body          | Notes                                                  |
+| ------ | ------------------------------------- | ----------- | ------------- | ------------------------------------------------------ |
+| POST   | `/api/pods`                           | user        | `{ name }`    | Creates pod; caller becomes `admin`.                   |
+| GET    | `/api/pods`                           | user        | —             | Pods the caller belongs to (with role + memberCount). |
+| POST   | `/api/pods/join`                      | user        | `{ code }`    | Join by invite code. 409 if already a member.          |
+| GET    | `/api/pods/:podId`                    | pod member  | —             | Single pod view from the caller's perspective.         |
+| PATCH  | `/api/pods/:podId`                    | pod admin   | `{ name }`    | Rename.                                                |
+| POST   | `/api/pods/:podId/code/rotate`        | pod admin   | —             | Generates a fresh invite code; invalidates the old.    |
+| GET    | `/api/pods/:podId/members`            | pod member  | —             | All members with their user summary.                   |
+| PATCH  | `/api/pods/:podId/members/:userId`    | pod admin   | `{ role }`    | Promote / demote. Last admin protected (409).          |
+| DELETE | `/api/pods/:podId/members/:userId`    | admin or self | —           | 204 on success. Last admin protected.                  |
+
+Invite codes are 10-char nanoids over an unambiguous alphabet (`23456789ABCDEFGHJKLMNPQRSTUVWXYZ`); generation lives in `src/pods/utils/code.ts`.
+
+For new feature modules that need pod-scoped routes: import `PodMembershipGuard` (exported from `PodsModule`), apply via `@UseGuards(PodMembershipGuard)` on any handler with a `:podId` param, then read membership via `@CurrentPod()`.
+
 ### Repositories & Unit of Work
 
 Services never touch Drizzle or `database/schema` directly. Each feature module owns its repositories under `src/<feature>/repositories/`, extending `BaseRepository` (in `src/database/base-repository.ts`). Repositories read their executor from `TransactionManager.current()` so the same code works inside and outside a transaction.

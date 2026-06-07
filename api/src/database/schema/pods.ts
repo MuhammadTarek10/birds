@@ -11,6 +11,7 @@ import { users } from './users';
 
 export const pods = pgTable('pods', {
   id: uuid('id').primaryKey().defaultRandom(),
+  name: varchar('name', { length: 120 }).notNull(),
   code: text('code').notNull().unique(),
   createdAt: timestamp('created_at', { precision: 0, mode: 'date' })
     .notNull()
