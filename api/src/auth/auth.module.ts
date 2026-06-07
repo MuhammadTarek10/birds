@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
+import { InvitesModule } from '../invites/invites.module';
+import { PodsModule } from '../pods/pods.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { GoogleAuthGuard } from './guards/google-auth.guard';
@@ -15,13 +17,15 @@ import { TokenService } from './services/token.service';
 import { UserAuthService } from './services/user-auth.service';
 import { GoogleStrategy } from './strategies/google.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { RegisterUserUseCase } from './use-cases/register-user.use-case';
 
 @Module({
-  imports: [PassportModule, JwtModule.register({})],
+  imports: [PassportModule, JwtModule.register({}), PodsModule, InvitesModule],
   controllers: [AuthController],
   providers: [
     AuthService,
     UserAuthService,
+    RegisterUserUseCase,
     TokenService,
     PasswordService,
     UsersRepository,

@@ -9,6 +9,7 @@ export type AccessPayload = {
   authId: string;
   sessionId: string;
   role: string;
+  email: string;
 };
 
 export type RefreshPayload = {
@@ -21,4 +22,5 @@ export type CurrentUserPayload = {
   authId: string;
   sessionId: string;
   role: string;
+  email: string;
 };

@@ -15,6 +15,11 @@ import { PodsRepository } from './repositories/pods.repository';
     PodAccountsRepository,
     PodMembershipGuard,
   ],
-  exports: [PodMembershipGuard, PodMembersRepository],
+  exports: [
+    PodMembershipGuard,
+    PodMembersRepository,
+    PodsRepository,
+    PodAccountsRepository,
+  ],
 })
 export class PodsModule {}

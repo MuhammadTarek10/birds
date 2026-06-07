@@ -42,6 +42,7 @@ import { IssueSessionResult } from './dto/issue-session.input';
 import type { AuthedUser } from './services/user-auth.service';
 import { GoogleAuthGuard } from './guards/google-auth.guard';
 import { UserAuthService } from './services/user-auth.service';
+import { RegisterUserUseCase } from './use-cases/register-user.use-case';
 import type { GoogleUser } from './strategies/google.strategy';
 import { REFRESH_COOKIE } from './strategies/jwt.strategy';
 import type { CurrentUserPayload, SessionContext } from './types';
@@ -75,6 +76,7 @@ export class AuthController {
   constructor(
     private readonly auth: AuthService,
     private readonly userAuth: UserAuthService,
+    private readonly registerUser: RegisterUserUseCase,
     config: ConfigService,
   ) {
     this.nodeEnv = config.get<string>(CONFIG.app.nodeEnv) ?? 'development';
@@ -98,7 +100,7 @@ export class AuthController {
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const user = await this.userAuth.registerLocal(dto);
+    const user = await this.registerUser.execute(dto);
     const tokens = await this.auth.issue(user, sessionCtx(req));
     setAuthCookies(res, tokens, { nodeEnv: this.nodeEnv });
     return toSessionResponse(user, tokens);

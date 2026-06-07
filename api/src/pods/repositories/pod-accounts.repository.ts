@@ -43,10 +43,6 @@ export class PodAccountsRepository {
     });
   }
 
-  rotateCode(podId: string): Promise<PodRow | null> {
-    return this.withFreshCode((code) => this.pods.updateCode(podId, code));
-  }
-
   private async withFreshCode<T>(fn: (code: string) => Promise<T>): Promise<T> {
     let lastErr: Error = new Error('Failed to generate a unique pod code');
     for (let i = 0; i < MAX_CODE_RETRIES; i++) {

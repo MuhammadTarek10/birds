@@ -71,28 +71,6 @@ export class PodsService {
     return this.summaryForUser(updated, userId);
   }
 
-  async rotateCode(podId: string, userId: string): Promise<PodSummary> {
-    const rotated = await this.accounts.rotateCode(podId);
-    if (!rotated) throw new NotFoundException('Pod not found');
-    return this.summaryForUser(rotated, userId);
-  }
-
-  async joinByCode(code: string, userId: string): Promise<PodSummary> {
-    const pod = await this.pods.findByCode(code);
-    if (!pod) throw new NotFoundException('Invite code not found');
-
-    const existing = await this.members.findByPodAndUser(pod.id, userId);
-    if (existing) throw new ConflictException('Already a member of this pod');
-
-    const member = await this.members.insert({
-      podId: pod.id,
-      userId,
-      role: 'member',
-    });
-    const memberCount = await this.members.countMembers(pod.id);
-    return toSummary(pod, member, memberCount);
-  }
-
   listMembers(podId: string): Promise<PodMemberView[]> {
     return this.members.listMembers(podId);
   }
