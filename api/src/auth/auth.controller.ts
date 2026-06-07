@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import {
+  ApiBearerAuth,
   ApiConflictResponse,
   ApiCookieAuth,
   ApiCreatedResponse,
@@ -34,8 +35,11 @@ import { clearAuthCookies, setAuthCookies } from './cookies';
 import { CurrentUser } from './current-user.decorator';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { AuthSessionEnvelope } from './dto/responses/auth-session.envelope';
+import { AuthSessionResponse } from './dto/responses/auth-session.response';
 import { MeEnvelope } from './dto/responses/me.envelope';
-import { UserSummaryEnvelope } from './dto/responses/user-summary.envelope';
+import { IssueSessionResult } from './dto/issue-session.input';
+import type { AuthedUser } from './services/user-auth.service';
 import { GoogleAuthGuard } from './guards/google-auth.guard';
 import { UserAuthService } from './services/user-auth.service';
 import type { GoogleUser } from './strategies/google.strategy';
@@ -49,8 +53,20 @@ const sessionCtx = (req: Request): SessionContext => ({
   userAgent: req.get('user-agent') ?? undefined,
 });
 
+const toSessionResponse = (
+  user: AuthedUser,
+  tokens: IssueSessionResult,
+): AuthSessionResponse => ({
+  user: { id: user.userId, email: user.email, role: user.role },
+  accessToken: tokens.accessToken,
+  refreshToken: tokens.refreshToken,
+  accessTtlMs: tokens.accessTtlMs,
+  refreshTtlMs: tokens.refreshTtlMs,
+});
+
 @ApiTags('Auth')
 @ApiCookieAuth('cookie-auth')
+@ApiBearerAuth('bearer-auth')
 @Controller('auth')
 export class AuthController {
   private readonly nodeEnv: string;
@@ -72,7 +88,7 @@ export class AuthController {
   @ApiOperation({
     summary: 'Register a new local account and issue session cookies',
   })
-  @ApiCreatedResponse({ type: UserSummaryEnvelope })
+  @ApiCreatedResponse({ type: AuthSessionEnvelope })
   @ApiConflictResponse({
     type: ErrorResponse,
     description: 'Email already registered',
@@ -85,7 +101,7 @@ export class AuthController {
     const user = await this.userAuth.registerLocal(dto);
     const tokens = await this.auth.issue(user, sessionCtx(req));
     setAuthCookies(res, tokens, { nodeEnv: this.nodeEnv });
-    return { id: user.userId, email: user.email, role: user.role };
+    return toSessionResponse(user, tokens);
   }
 
   @Public()
@@ -96,7 +112,7 @@ export class AuthController {
   @ApiOperation({
     summary: 'Log in with email + password and issue session cookies',
   })
-  @ApiOkResponse({ type: UserSummaryEnvelope })
+  @ApiOkResponse({ type: AuthSessionEnvelope })
   @ApiUnauthorizedResponse({
     type: ErrorResponse,
     description: 'Invalid credentials',
@@ -113,7 +129,7 @@ export class AuthController {
     const user = await this.userAuth.loginLocal(dto.email, dto.password);
     const tokens = await this.auth.issue(user, sessionCtx(req));
     setAuthCookies(res, tokens, { nodeEnv: this.nodeEnv });
-    return { id: user.userId, email: user.email, role: user.role };
+    return toSessionResponse(user, tokens);
   }
 
   @Public()
@@ -122,7 +138,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @ResponseMessage('Session refreshed')
   @ApiOperation({ summary: 'Rotate the session using the refresh cookie' })
-  @ApiOkResponse({ type: UserSummaryEnvelope })
+  @ApiOkResponse({ type: AuthSessionEnvelope })
   @ApiUnauthorizedResponse({
     type: ErrorResponse,
     description: 'Missing or invalid refresh token',
@@ -135,7 +151,7 @@ export class AuthController {
     try {
       const { user, tokens } = await this.auth.refresh(raw, sessionCtx(req));
       setAuthCookies(res, tokens, { nodeEnv: this.nodeEnv });
-      return { id: user.userId, email: user.email, role: user.role };
+      return toSessionResponse(user, tokens);
     } catch (err) {
       clearAuthCookies(res, { nodeEnv: this.nodeEnv });
       throw err;

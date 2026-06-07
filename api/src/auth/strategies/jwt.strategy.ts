@@ -19,7 +19,10 @@ const fromCookie =
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(config: ConfigService) {
     super({
-      jwtFromRequest: ExtractJwt.fromExtractors([fromCookie(ACCESS_COOKIE)]),
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        fromCookie(ACCESS_COOKIE),
+        ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ]),
       ignoreExpiration: false,
       secretOrKey: config.getOrThrow<string>(CONFIG.jwt.accessSecret),
     });

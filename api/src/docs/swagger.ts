@@ -5,9 +5,13 @@ export const SWAGGER_PATH = 'api/docs';
 
 export const buildOpenApiDocument = (app: INestApplication) => {
   const config = new DocumentBuilder()
-    .setTitle('Memory Vault API')
-    .setDescription('Private multi-tenant memory app')
+    .setTitle('Birds API')
+    .setDescription('Birds API documentation')
     .setVersion('0.1.0')
+    .addBearerAuth(
+      { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+      'bearer-auth',
+    )
     .addCookieAuth(
       'mv_access',
       { type: 'apiKey', in: 'cookie', name: 'mv_access' },
