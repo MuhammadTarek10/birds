@@ -2,8 +2,8 @@ import { Badge } from '#/components/ui/Badge'
 import type { BadgeTone } from '#/components/ui/Badge'
 import { Button } from '#/components/ui/Button'
 import { Text } from '#/components/ui/Text'
-import { useRevokeInvite } from '../api/mutations'
-import type { Invite } from '../api/queries'
+import { useRevokeInvite } from '../mutations'
+import type { Invite } from '../types'
 import { CopyButton } from './CopyButton'
 
 type Status = {

@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import { Text } from '#/components/ui/Text'
-import type { PodSummary } from '../api/queries'
+import type { PodSummary } from '../types'
 import { RoleBadge } from './RoleBadge'
 
 export const PodCard = ({ pod }: { pod: PodSummary }) => (

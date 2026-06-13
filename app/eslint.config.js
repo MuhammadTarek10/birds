@@ -20,6 +20,21 @@ export default [
             'Inline style prop is not allowed. Define styles in src/styles/components/*.css under @layer components and reference a semantic class.',
         },
       ],
+      // Layering rule: hooks, components, and routes must not import lib/api directly.
+      // HTTP calls live exclusively in features/*/services/*.service.ts
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['#/lib/api/client', '#/lib/api/http'],
+              importNames: ['api', 'http'],
+              message:
+                'Do not call the HTTP layer directly. Use a service in features/*/services/*.service.ts instead.',
+            },
+          ],
+        },
+      ],
     },
   },
   {

@@ -5,7 +5,7 @@ import {
   podDetailQuery,
   podMembersListQuery,
   podsListQuery,
-} from '#/features/pods/api/queries'
+} from '#/features/pods/queries'
 import { PodTabs } from '#/features/pods/components/PodTabs'
 import { writeLastPodId } from '#/features/pods/hooks/use-last-pod-id'
 

@@ -16,7 +16,7 @@ import {
 } from '#/features/auth/schemas/register.schema'
 import type { RegisterInput } from '#/features/auth/schemas/register.schema'
 import { readRedirect } from '#/features/auth/utils/redirect-param'
-import { invitePreviewQuery } from '#/features/invites/api/queries'
+import { invitePreviewQuery } from '#/features/invites/queries'
 
 export const Route = createFileRoute('/_auth/register')({
   component: RegisterPage,
@@ -71,7 +71,7 @@ function RegisterPage() {
         </div>
       ) : null}
       <form
-        className="flex flex-col gap-5"
+        className="auth-card__form"
         onSubmit={handleSubmit((values) =>
           registerMutation.mutate(
             cleanRegisterPayload({
@@ -83,7 +83,7 @@ function RegisterPage() {
         noValidate
       >
         <AuthError error={registerMutation.error} />
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <div className="auth-card__name-grid">
           <TextInput
             label="First name"
             autoComplete="given-name"

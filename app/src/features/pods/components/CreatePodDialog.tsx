@@ -11,7 +11,7 @@ import {
   DialogTitle,
 } from '#/components/ui/Dialog'
 import { TextInput } from '#/components/ui/TextInput'
-import { useCreatePod } from '../api/mutations'
+import { useCreatePod } from '../mutations'
 import { podNameSchema  } from '../schemas/pod-name.schema'
 import type {PodNameInput} from '../schemas/pod-name.schema';
 
@@ -48,7 +48,7 @@ export const CreatePodDialog = ({
           Give your vault a name. You can rename it later.
         </DialogDescription>
         <form
-          className="flex flex-col gap-5"
+          className="dialog__form"
           onSubmit={handleSubmit(async (values) => {
             await create.mutateAsync(values.name)
             onOpenChange(false)

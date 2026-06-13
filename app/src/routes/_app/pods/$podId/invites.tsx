@@ -2,10 +2,10 @@ import { useQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { EmptyState } from '#/components/ui/EmptyState'
 import { Text } from '#/components/ui/Text'
-import { podInvitesQuery } from '#/features/invites/api/queries'
+import { podInvitesQuery } from '#/features/invites/queries'
 import { CreateInviteForm } from '#/features/invites/components/CreateInviteForm'
 import { InviteTable } from '#/features/invites/components/InviteTable'
-import { podDetailQuery } from '#/features/pods/api/queries'
+import { podDetailQuery } from '#/features/pods/queries'
 
 export const Route = createFileRoute('/_app/pods/$podId/invites')({
   component: InvitesPage,

@@ -19,8 +19,8 @@ import {
   useLeavePod,
   useRemoveMember,
   useUpdateMemberRole,
-} from '../api/mutations'
-import type { PodMember } from '../api/queries'
+} from '../mutations'
+import type { PodMember } from '../types'
 import { displayName } from '../utils/name'
 
 const Kebab = ({ size = 18 }: { size?: number }) => (

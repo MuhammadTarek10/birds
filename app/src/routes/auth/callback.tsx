@@ -3,7 +3,8 @@ import { useQueryClient } from '@tanstack/react-query'
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Button } from '#/components/ui/Button'
 import { Text } from '#/components/ui/Text'
-import { ME_QUERY_KEY, meQuery } from '#/features/auth/api/queries'
+import { meQuery } from '#/features/auth/queries'
+import { authKeys } from '#/features/auth/keys'
 import { AuthCard } from '#/features/auth/components/AuthCard'
 import { AuthError } from '#/features/auth/components/AuthError'
 import { AuthLayout } from '#/features/auth/components/AuthLayout'
@@ -26,7 +27,7 @@ function CallbackPage() {
   useEffect(() => {
     if (search.error) return
     void (async () => {
-      queryClient.removeQueries({ queryKey: ME_QUERY_KEY })
+      queryClient.removeQueries({ queryKey: authKeys.me })
       await queryClient.fetchQuery(meQuery)
       await navigate({ to: readPostAuthRedirect() })
     })()
@@ -71,7 +72,7 @@ function CallbackPage() {
         headline="One moment, please."
         lede="We're signing you in."
       >
-        <div className="py-6">
+        <div className="auth-card__loading">
           <span className="auth-loading-orb" aria-hidden="true" />
         </div>
       </AuthCard>

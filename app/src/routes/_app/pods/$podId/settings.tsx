@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { Text } from '#/components/ui/Text'
 import { useMe } from '#/features/auth/hooks/use-me'
-import { podDetailQuery } from '#/features/pods/api/queries'
+import { podDetailQuery } from '#/features/pods/queries'
 import { LeavePodCard } from '#/features/pods/components/LeavePodCard'
 import { RenamePodCard } from '#/features/pods/components/RenamePodCard'
 
@@ -27,7 +27,7 @@ function SettingsPage() {
           {pod.data.name}
         </Text>
       </header>
-      <div className="flex flex-col gap-8 max-w-3xl">
+      <div className="settings-page__cards">
         {pod.data.role === 'admin' ? <RenamePodCard pod={pod.data} /> : null}
         <LeavePodCard
           podId={podId}

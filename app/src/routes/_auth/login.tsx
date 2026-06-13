@@ -46,7 +46,7 @@ function LoginPage() {
       }
     >
       <form
-        className="flex flex-col gap-5"
+        className="auth-card__form"
         onSubmit={handleSubmit((values) => login.mutate(values))}
         noValidate
       >

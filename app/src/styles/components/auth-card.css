@@ -57,6 +57,29 @@
     @apply flex flex-col items-start gap-3 mt-2;
   }
 
+  .auth-card__form {
+    @apply flex flex-col gap-5;
+  }
+
+  .auth-card__name-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  @media (min-width: 640px) {
+    .auth-card__name-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .auth-card__action-footer {
+    @apply flex justify-end;
+  }
+
+  .auth-card__loading {
+    @apply py-6;
+  }
+
   .auth-card__divider {
     @apply relative flex items-center gap-4 my-2 text-label-md;
     color: var(--color-on-surface-variant);

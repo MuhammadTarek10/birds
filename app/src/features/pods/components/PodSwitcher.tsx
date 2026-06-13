@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '#/components/ui/DropdownMenu'
-import { podsListQuery } from '../api/queries'
+import { podsListQuery } from '../queries'
 import { CreatePodDialog } from './CreatePodDialog'
 
 const ChevronDown = () => (

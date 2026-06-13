@@ -4,8 +4,8 @@ import { useForm } from 'react-hook-form'
 import { Button } from '#/components/ui/Button'
 import { Text } from '#/components/ui/Text'
 import { TextInput } from '#/components/ui/TextInput'
-import { useRenamePod } from '../api/mutations'
-import type { PodSummary } from '../api/queries'
+import { useRenamePod } from '../mutations'
+import type { PodSummary } from '../types'
 import { podNameSchema  } from '../schemas/pod-name.schema'
 import type {PodNameInput} from '../schemas/pod-name.schema';
 
@@ -38,7 +38,7 @@ export const RenamePodCard = ({ pod }: { pod: PodSummary }) => {
         Pick a name that feels like the room you share.
       </Text>
       <form
-        className="flex flex-col gap-5"
+        className="auth-card__form"
         onSubmit={handleSubmit((values) => rename.mutate(values.name))}
       >
         <TextInput
@@ -46,7 +46,7 @@ export const RenamePodCard = ({ pod }: { pod: PodSummary }) => {
           error={errors.name?.message}
           {...register('name')}
         />
-        <div className="flex justify-end">
+        <div className="auth-card__action-footer">
           <Button
             type="submit"
             variant="gold"

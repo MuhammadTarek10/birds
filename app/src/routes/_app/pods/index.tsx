@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { Text } from '#/components/ui/Text'
-import { podsListQuery } from '#/features/pods/api/queries'
+import { podsListQuery } from '#/features/pods/queries'
 import { CreatePodDialog } from '#/features/pods/components/CreatePodDialog'
 import { PodCard, PodCardGhost } from '#/features/pods/components/PodCard'
 
@@ -17,7 +17,7 @@ function PodsIndex() {
 
   return (
     <main className="pod-page">
-      <header className="pod-page__header items-center text-center">
+      <header className="pod-page__header pod-page__header--centered">
         <Text
           as="span"
           variant="label-md"
@@ -34,7 +34,7 @@ function PodsIndex() {
         </Text>
         <Text
           variant="body-lg"
-          className="text-on-surface-variant italic max-w-prose mx-auto"
+          className="pod-page__lede"
         >
           Each pod is its own quiet room — one for the two of you, more for whoever
           you invite in.
