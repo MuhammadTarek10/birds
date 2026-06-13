@@ -1,0 +1,69 @@
+@layer components {
+  .pod-switcher {
+    @apply inline-flex items-center gap-3 cursor-pointer;
+    background: none;
+    border: none;
+    padding: 4px 6px;
+    border-radius: var(--radius-md);
+    color: var(--color-on-surface);
+    transition: background-color 160ms ease;
+  }
+  .pod-switcher:hover {
+    background-color: color-mix(
+      in srgb,
+      var(--color-surface-container) 60%,
+      transparent
+    );
+  }
+  .pod-switcher:focus-visible {
+    outline: 2px solid var(--color-secondary);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  .pod-switcher__brand {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--color-on-surface);
+    letter-spacing: 0.01em;
+  }
+
+  .pod-switcher__separator {
+    width: 1px;
+    height: 16px;
+    background-color: color-mix(in srgb, var(--color-secondary) 40%, transparent);
+  }
+
+  .pod-switcher__pod {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 17px;
+    color: var(--color-on-surface);
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .pod-switcher__chevron {
+    width: 14px;
+    height: 14px;
+    color: color-mix(in srgb, var(--color-secondary) 80%, transparent);
+    transition: transform 200ms ease;
+  }
+  .pod-switcher[data-state='open'] .pod-switcher__chevron {
+    transform: rotate(180deg);
+  }
+
+  .pod-switcher__item {
+    @apply flex items-center justify-between gap-3;
+  }
+  .pod-switcher__item-role {
+    font-family: var(--font-label);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-on-surface-variant);
+  }
+}
