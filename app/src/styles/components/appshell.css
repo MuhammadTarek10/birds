@@ -1,0 +1,68 @@
+@layer components {
+  .appshell {
+    @apply min-h-screen flex flex-col;
+    background-color: var(--color-surface);
+  }
+
+  .appshell-header {
+    @apply sticky top-0 z-10 flex items-center justify-between px-6 py-4 sm:px-12;
+    height: 72px;
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    background-color: color-mix(
+      in srgb,
+      var(--color-surface-container) 65%,
+      transparent
+    );
+    border-bottom: 1px solid
+      color-mix(in srgb, var(--color-secondary) 22%, transparent);
+  }
+
+  @media (max-width: 640px) {
+    .appshell-header {
+      height: 60px;
+    }
+  }
+
+  .appshell-brand {
+    font-family: var(--font-display);
+    font-style: italic;
+    color: var(--color-on-surface);
+    letter-spacing: 0.01em;
+  }
+
+  .appshell-actions {
+    @apply flex items-center gap-4;
+  }
+
+  .appshell-identity {
+    @apply flex items-center gap-2;
+  }
+
+  .appshell-avatar {
+    @apply inline-flex items-center justify-center;
+    width: 32px;
+    height: 32px;
+    border-radius: 9999px;
+    background-color: color-mix(
+      in srgb,
+      var(--color-secondary-fixed) 70%,
+      transparent
+    );
+    color: var(--color-on-secondary-fixed);
+    font-family: var(--font-label);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    border: 1px solid
+      color-mix(in srgb, var(--color-secondary) 50%, transparent);
+  }
+
+  .appshell-email {
+    color: var(--color-on-surface-variant);
+  }
+
+  .appshell-content {
+    @apply flex-1;
+  }
+}

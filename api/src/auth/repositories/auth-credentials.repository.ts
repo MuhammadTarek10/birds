@@ -133,4 +133,11 @@ export class AuthCredentialsRepository extends BaseRepository {
       .set({ failedAttempts: 0, lockedUntil: null, lastUsedAt: new Date() })
       .where(eq(auth.id, authId));
   }
+
+  async markUsed(authId: string): Promise<void> {
+    await this.db()
+      .update(auth)
+      .set({ lastUsedAt: new Date() })
+      .where(eq(auth.id, authId));
+  }
 }

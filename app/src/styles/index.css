@@ -11,3 +11,6 @@
 @import './components/icon.css';
 @import './components/card.css';
 @import './components/text.css';
+@import './auth-background.css';
+@import './components/auth-card.css';
+@import './components/appshell.css';
