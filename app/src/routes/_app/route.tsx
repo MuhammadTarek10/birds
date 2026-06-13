@@ -1,6 +1,6 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
-import { AppShell } from '#/features/auth/components/AppShell'
-import { meQuery } from '#/features/auth/api/queries'
+import { AppShell } from '#/components/layout/AppShell'
+import { meQuery } from '#/features/auth/queries'
 
 export const Route = createFileRoute('/_app')({
   beforeLoad: async ({ context, location }) => {

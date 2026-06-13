@@ -1,10 +1,12 @@
-import { Outlet, useParams } from '@tanstack/react-router'
+import { Outlet } from '@tanstack/react-router'
 import { Button } from '#/components/ui/Button'
+import { ThemeToggle } from '#/components/ui/ThemeToggle'
 import { LogOutIcon } from '#/components/ui/icons/LogOutIcon'
 import { Text } from '#/components/ui/Text'
+import { useLogout } from '#/features/auth/hooks/use-logout'
+import { useMe } from '#/features/auth/hooks/use-me'
 import { PodSwitcher } from '#/features/pods/components/PodSwitcher'
-import { useLogout } from '../hooks/use-logout'
-import { useMe } from '../hooks/use-me'
+import { usePodIdFromUrl } from '#/features/pods/hooks/use-pod-id-from-url'
 
 const initialsOf = (me: {
   firstName: string | null
@@ -20,13 +22,14 @@ const initialsOf = (me: {
 export const AppShell = () => {
   const me = useMe()
   const logout = useLogout()
-  const params = useParams({ strict: false })
+  const activePodId = usePodIdFromUrl()
 
   return (
     <div className="appshell">
       <header className="appshell-header">
-        <PodSwitcher activePodId={params.podId} />
+        <PodSwitcher activePodId={activePodId} />
         <div className="appshell-actions">
+          <ThemeToggle />
           {me.data ? (
             <div className="appshell-identity">
               <span className="appshell-avatar" aria-hidden="true">

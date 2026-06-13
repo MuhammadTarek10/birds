@@ -1,5 +1,5 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
-import { podsListQuery } from '#/features/pods/api/queries'
+import { podsListQuery } from '#/features/pods/queries'
 import { readLastPodId } from '#/features/pods/hooks/use-last-pod-id'
 
 export const Route = createFileRoute('/_app/')({

@@ -1,5 +1,5 @@
 import { Outlet, createFileRoute, redirect } from '@tanstack/react-router'
-import { meQuery } from '#/features/auth/api/queries'
+import { meQuery } from '#/features/auth/queries'
 import { AuthLayout } from '#/features/auth/components/AuthLayout'
 import { readRedirect } from '#/features/auth/utils/redirect-param'
 

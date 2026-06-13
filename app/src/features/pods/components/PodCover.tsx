@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import { Text } from '#/components/ui/Text'
-import type { PodMember, PodSummary } from '../api/queries'
+import type { PodMember, PodSummary } from '../types'
 import { initials } from '../utils/name'
 
 export type PodCoverProps = {

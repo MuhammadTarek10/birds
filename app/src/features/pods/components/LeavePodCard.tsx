@@ -9,7 +9,7 @@ import {
   DialogTitle,
 } from '#/components/ui/Dialog'
 import { Text } from '#/components/ui/Text'
-import { useLeavePod } from '../api/mutations'
+import { useLeavePod } from '../mutations'
 
 export type LeavePodCardProps = {
   podId: string
@@ -36,7 +36,7 @@ export const LeavePodCard = ({
       <Text variant="body-md" className="auth-card__lede">
         You&rsquo;ll lose access to {podName}. An admin can re-invite you.
       </Text>
-      <div className="flex justify-end">
+      <div className="auth-card__action-footer">
         <Button
           type="button"
           variant="primary"

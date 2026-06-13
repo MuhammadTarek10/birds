@@ -1,5 +1,5 @@
 import { cx } from '#/lib/cx'
-import type { PodMember } from '../api/queries'
+import type { PodMember } from '../types'
 import { displayName, hasName, initials } from '../utils/name'
 import { MemberRowActions } from './MemberRowActions'
 import { RoleBadge } from './RoleBadge'

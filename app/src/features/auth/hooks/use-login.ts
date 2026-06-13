@@ -1,7 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
-import { api } from '#/lib/api/client'
-import { ME_QUERY_KEY, meQuery } from '../api/queries'
+import { authKeys } from '../keys'
+import { meQuery } from '../queries'
+import { authService } from '../services/auth.service'
 import type { LoginInput } from '../schemas/login.schema'
 
 export const useLogin = (redirectTo: string) => {
@@ -9,13 +10,12 @@ export const useLogin = (redirectTo: string) => {
   const navigate = useNavigate()
 
   return useMutation({
-    mutationFn: async (input: LoginInput): Promise<void> => {
-      await api.post('/auth/login', input)
-    },
+    mutationFn: (input: LoginInput) => authService.login(input),
     onSuccess: async () => {
-      queryClient.removeQueries({ queryKey: ME_QUERY_KEY })
+      queryClient.removeQueries({ queryKey: authKeys.me })
       await queryClient.fetchQuery(meQuery)
       await navigate({ to: redirectTo })
     },
+    meta: { silent: true },
   })
 }

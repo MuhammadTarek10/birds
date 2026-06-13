@@ -6,12 +6,17 @@ import type {
 import axios from 'axios'
 import { env } from '#/lib/env'
 import { ApiError } from './error'
+import { endpoints } from './endpoints'
 import type { ResponseEnvelope } from './types'
 import { sessionEnded } from './unauthenticated'
 
 type RetriableConfig = InternalAxiosRequestConfig & { _retried?: boolean }
 
-const REFRESH_SAFE = new Set(['/auth/refresh', '/auth/login', '/auth/register'])
+const REFRESH_SAFE = new Set<string>([
+  endpoints.auth.refresh,
+  endpoints.auth.login,
+  endpoints.auth.register,
+])
 
 export const api = axios.create({
   baseURL: env.VITE_API_URL,

@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
-import { meQuery } from '#/features/auth/api/queries'
+import { meQuery } from '#/features/auth/queries'
 import { AuthCard } from '#/features/auth/components/AuthCard'
 import { AuthError } from '#/features/auth/components/AuthError'
 import { AuthLayout } from '#/features/auth/components/AuthLayout'
-import { useRedeemInvite } from '#/features/invites/api/mutations'
+import { useRedeemInvite } from '#/features/invites/mutations'
 
 export const Route = createFileRoute('/invite/$token')({
   beforeLoad: async ({ context, params }) => {
@@ -58,7 +58,7 @@ function InviteRedeemPage() {
         {redeem.isError ? (
           <AuthError error={redeem.error} />
         ) : (
-          <div className="py-6">
+          <div className="auth-card__loading">
             <span className="auth-loading-orb" aria-hidden="true" />
           </div>
         )}

@@ -74,6 +74,26 @@
     );
   }
 
+  .settings-page__cards {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 48rem;
+  }
+
+  .pod-page__lede {
+    color: var(--color-on-surface-variant);
+    font-style: italic;
+    max-width: 65ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .pod-page__header--centered {
+    align-items: center;
+    text-align: center;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .pod-card,
     .pod-card:hover {

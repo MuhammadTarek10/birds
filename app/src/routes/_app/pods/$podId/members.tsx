@@ -5,7 +5,7 @@ import { useMe } from '#/features/auth/hooks/use-me'
 import {
   podDetailQuery,
   podMembersListQuery,
-} from '#/features/pods/api/queries'
+} from '#/features/pods/queries'
 import { MemberTable } from '#/features/pods/components/MemberTable'
 
 export const Route = createFileRoute('/_app/pods/$podId/members')({

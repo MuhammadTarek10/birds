@@ -93,4 +93,8 @@
     min-width: 120px;
     text-align: right;
   }
+
+  .invite-create__footer {
+    @apply flex justify-end;
+  }
 }

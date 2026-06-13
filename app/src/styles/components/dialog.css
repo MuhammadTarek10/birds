@@ -88,6 +88,10 @@
     }
   }
 
+  .dialog__form {
+    @apply flex flex-col gap-5;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .dialog-overlay,
     .dialog-content,

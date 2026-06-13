@@ -3,7 +3,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { Button } from '#/components/ui/Button'
 import { Text } from '#/components/ui/Text'
 import { TextInput } from '#/components/ui/TextInput'
-import { useCreateInvite } from '../api/mutations'
+import { useCreateInvite } from '../mutations'
 import {
   EXPIRY_OPTIONS,
   createInviteSchema
@@ -71,7 +71,7 @@ export const CreateInviteForm = ({ podId }: { podId: string }) => {
           </div>
         )}
       />
-      <div className="flex justify-end">
+      <div className="invite-create__footer">
         <Button
           type="submit"
           variant="gold"
