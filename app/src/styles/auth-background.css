@@ -1,0 +1,90 @@
+@layer components {
+  .auth-backdrop {
+    @apply relative min-h-screen w-full overflow-hidden;
+    background-color: var(--color-surface);
+    background-image:
+      radial-gradient(
+        60% 50% at 12% 14%,
+        color-mix(in srgb, var(--color-primary-container) 55%, transparent) 0%,
+        transparent 70%
+      ),
+      radial-gradient(
+        55% 45% at 88% 86%,
+        color-mix(in srgb, var(--color-secondary-fixed-dim) 35%, transparent) 0%,
+        transparent 70%
+      ),
+      radial-gradient(
+        40% 30% at 70% 22%,
+        color-mix(in srgb, var(--color-tertiary-container) 30%, transparent) 0%,
+        transparent 75%
+      );
+  }
+
+  .auth-backdrop::before {
+    content: '';
+    @apply pointer-events-none absolute inset-0;
+    background-image: radial-gradient(
+      color-mix(in srgb, var(--color-on-surface) 5%, transparent) 1px,
+      transparent 1px
+    );
+    background-size: 4px 4px;
+    opacity: 0.45;
+    mix-blend-mode: multiply;
+  }
+
+  .auth-ribbon {
+    @apply pointer-events-none absolute inset-0 hidden lg:block;
+    color: color-mix(in srgb, var(--color-secondary) 28%, transparent);
+  }
+  .auth-ribbon svg {
+    @apply h-full w-full;
+  }
+
+  .auth-stage {
+    @apply relative mx-auto grid min-h-screen w-full max-w-[1140px] items-center gap-12 px-8 py-16 lg:grid-cols-[minmax(360px,_460px)_1fr] lg:gap-24 lg:px-16 lg:py-24;
+  }
+
+  .auth-stage__form {
+    @apply relative w-full;
+  }
+
+  .auth-stage__editorial {
+    @apply hidden flex-col gap-6 lg:flex;
+    max-width: 480px;
+  }
+
+  .auth-stage__eyebrow {
+    color: var(--color-secondary);
+  }
+
+  .auth-stage__headline {
+    font-style: italic;
+    color: var(--color-on-surface);
+    line-height: 1.05;
+  }
+
+  .auth-stage__lede {
+    color: var(--color-on-surface-variant);
+    font-style: italic;
+    max-width: 38ch;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .auth-backdrop {
+      background-image:
+        radial-gradient(
+          60% 50% at 12% 14%,
+          color-mix(in srgb, var(--color-inverse-primary) 22%, transparent) 0%,
+          transparent 70%
+        ),
+        radial-gradient(
+          55% 45% at 88% 86%,
+          color-mix(in srgb, var(--color-secondary-container) 18%, transparent) 0%,
+          transparent 70%
+        );
+    }
+    .auth-backdrop::before {
+      opacity: 0.35;
+    }
+  }
+}

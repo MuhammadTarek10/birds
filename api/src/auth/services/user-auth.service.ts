@@ -86,7 +86,10 @@ export class UserAuthService {
       'google',
       input.providerUserId,
     );
-    if (existing) return existing;
+    if (existing) {
+      await this.creds.markUsed(existing.authId);
+      return existing;
+    }
 
     const byEmail = await this.users.findByEmail(input.email);
     if (byEmail) {
@@ -95,6 +98,7 @@ export class UserAuthService {
         userId: byEmail.id,
         providerUserId: input.providerUserId,
       });
+      await this.creds.markUsed(authId);
       return {
         userId: byEmail.id,
         authId,
@@ -103,7 +107,7 @@ export class UserAuthService {
       };
     }
 
-    return this.accounts.createGoogleAccount({
+    const created = await this.accounts.createGoogleAccount({
       email: input.email,
       providerUserId: input.providerUserId,
       emailVerified: input.emailVerified,
@@ -111,6 +115,8 @@ export class UserAuthService {
       lastName: input.lastName,
       avatarUrl: input.avatarUrl,
     });
+    await this.creds.markUsed(created.authId);
+    return created;
   }
 
   loadMe(userId: string) {
