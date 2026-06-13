@@ -1,0 +1,6 @@
+export { HeartIcon } from './HeartIcon'
+export { SettingsIcon } from './SettingsIcon'
+export { UserIcon } from './UserIcon'
+export { LogOutIcon } from './LogOutIcon'
+export { PlusIcon } from './PlusIcon'
+export { ChevronRightIcon } from './ChevronRightIcon'

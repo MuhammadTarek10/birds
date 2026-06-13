@@ -1,0 +1,13 @@
+@import 'tailwindcss';
+
+@import './fonts.css';
+@import './theme.light.css';
+@import './theme.dark.css';
+@import './base.css';
+
+@import './components/button.css';
+@import './components/text-input.css';
+@import './components/label.css';
+@import './components/icon.css';
+@import './components/card.css';
+@import './components/text.css';

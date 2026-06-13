@@ -1,0 +1,44 @@
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2
+           rounded-xl font-medium
+           transition-colors duration-150
+           disabled:cursor-not-allowed disabled:opacity-50;
+    font-family: var(--font-display);
+  }
+
+  .btn--sm {
+    @apply h-9 px-4 text-sm;
+  }
+  .btn--md {
+    @apply h-11 px-6 text-base;
+  }
+  .btn--lg {
+    @apply h-12 px-8 text-lg;
+  }
+
+  .btn--primary {
+    background-color: var(--color-primary);
+    color: var(--color-on-primary);
+  }
+  .btn--primary:hover:not(:disabled) {
+    background-color: var(--color-on-primary-container);
+  }
+
+  .btn--gold {
+    background: linear-gradient(135deg, var(--color-secondary-fixed-dim), var(--color-secondary-container));
+    color: var(--color-on-secondary-container);
+  }
+  .btn--gold:hover:not(:disabled) {
+    filter: brightness(0.95);
+  }
+
+  .btn--ghost {
+    background-color: transparent;
+    color: var(--color-on-surface);
+    border: 1px solid color-mix(in srgb, var(--color-secondary) 30%, transparent);
+  }
+  .btn--ghost:hover:not(:disabled) {
+    background-color: var(--color-surface-container);
+  }
+}

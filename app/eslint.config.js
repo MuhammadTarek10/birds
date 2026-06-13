@@ -12,6 +12,14 @@ export default [
       '@typescript-eslint/array-type': 'off',
       '@typescript-eslint/require-await': 'off',
       'pnpm/json-enforce-catalog': 'off',
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: "JSXAttribute[name.name='style']",
+          message:
+            'Inline style prop is not allowed. Define styles in src/styles/components/*.css under @layer components and reference a semantic class.',
+        },
+      ],
     },
   },
   {
