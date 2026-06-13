@@ -1,0 +1,71 @@
+@layer components {
+  .badge {
+    @apply inline-flex items-center justify-center px-2.5 py-0.5;
+    border-radius: 9999px;
+    font-family: var(--font-label);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 16px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+    white-space: nowrap;
+  }
+
+  .badge--admin {
+    background-color: color-mix(
+      in srgb,
+      var(--color-primary-container) 70%,
+      transparent
+    );
+    color: var(--color-on-primary-container);
+    border-color: color-mix(in srgb, var(--color-primary) 28%, transparent);
+  }
+
+  .badge--member {
+    background-color: color-mix(
+      in srgb,
+      var(--color-tertiary-container) 60%,
+      transparent
+    );
+    color: var(--color-on-tertiary-container);
+    border-color: color-mix(in srgb, var(--color-tertiary) 28%, transparent);
+  }
+
+  .badge--pending {
+    background-color: color-mix(
+      in srgb,
+      var(--color-secondary-fixed-dim) 50%,
+      transparent
+    );
+    color: var(--color-on-secondary-container);
+    border-color: color-mix(in srgb, var(--color-secondary) 35%, transparent);
+  }
+
+  .badge--redeemed {
+    background-color: color-mix(
+      in srgb,
+      var(--color-surface-container-high) 80%,
+      transparent
+    );
+    color: var(--color-on-surface-variant);
+    border-color: color-mix(in srgb, var(--color-outline) 35%, transparent);
+  }
+
+  .badge--revoked,
+  .badge--expired {
+    background-color: color-mix(
+      in srgb,
+      var(--color-surface-container) 70%,
+      transparent
+    );
+    color: var(--color-on-surface-variant);
+    border-color: color-mix(in srgb, var(--color-outline) 25%, transparent);
+    text-decoration: line-through;
+    text-decoration-color: color-mix(
+      in srgb,
+      var(--color-outline) 60%,
+      transparent
+    );
+  }
+}

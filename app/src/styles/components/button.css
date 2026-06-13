@@ -41,4 +41,27 @@
   .btn--ghost:hover:not(:disabled) {
     background-color: var(--color-surface-container);
   }
+
+  .btn--danger {
+    background-color: var(--color-error);
+    color: var(--color-on-error);
+  }
+  .btn--danger:hover:not(:disabled) {
+    background-color: color-mix(in srgb, var(--color-error) 88%, black);
+  }
+
+  .btn--icon {
+    @apply inline-flex items-center justify-center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border-radius: var(--radius-md);
+    background-color: transparent;
+    color: var(--color-on-surface-variant);
+    transition: background-color 160ms ease, color 160ms ease;
+  }
+  .btn--icon:hover:not(:disabled) {
+    background-color: var(--color-surface-container);
+    color: var(--color-secondary);
+  }
 }

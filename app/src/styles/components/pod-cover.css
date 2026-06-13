@@ -1,0 +1,80 @@
+@layer components {
+  .pod-cover {
+    @apply mx-auto flex flex-col items-center gap-6 text-center;
+    max-width: 720px;
+    padding: 64px 32px;
+  }
+
+  .pod-cover__eyebrow {
+    color: var(--color-on-surface-variant);
+    letter-spacing: 0.18em;
+  }
+
+  .pod-cover__name {
+    font-family: var(--font-display);
+    font-style: italic;
+    line-height: 1.05;
+    color: var(--color-on-surface);
+  }
+
+  .pod-cover__lede {
+    font-style: italic;
+    color: var(--color-on-surface-variant);
+    max-width: 40ch;
+  }
+
+  .pod-cover__divider {
+    @apply flex items-center justify-center gap-2;
+    margin: 12px 0;
+  }
+  .pod-cover__divider span {
+    width: 24px;
+    height: 1px;
+    background-color: color-mix(in srgb, var(--color-secondary) 50%, transparent);
+  }
+
+  .pod-cover__avatars {
+    @apply flex items-center;
+  }
+  .pod-cover__avatars > * + * {
+    margin-left: -10px;
+  }
+
+  .pod-cover__memories {
+    @apply mt-8 w-full flex items-center justify-center;
+    min-height: 200px;
+    border: 1px dashed color-mix(in srgb, var(--color-secondary) 50%, transparent);
+    border-radius: var(--radius-lg);
+    color: var(--color-on-surface-variant);
+    font-style: italic;
+  }
+
+  .stacked-avatar {
+    @apply inline-flex items-center justify-center;
+    width: 40px;
+    height: 40px;
+    border-radius: 9999px;
+    background-color: color-mix(
+      in srgb,
+      var(--color-secondary-fixed) 70%,
+      transparent
+    );
+    color: var(--color-on-secondary-fixed);
+    border: 2px solid var(--color-surface-container-lowest);
+    box-shadow: 0 0 0 1px
+      color-mix(in srgb, var(--color-secondary) 50%, transparent);
+    font-family: var(--font-label);
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+  }
+
+  .stacked-avatar--more {
+    background-color: var(--color-surface-container);
+    color: var(--color-on-surface-variant);
+    font-family: var(--font-label);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 11px;
+  }
+}

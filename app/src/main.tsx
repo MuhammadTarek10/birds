@@ -1,5 +1,6 @@
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
+import { Toaster } from 'sonner'
 import { routeTree } from './routeTree.gen'
 import { QueryProvider } from '#/lib/query/provider'
 import { queryClient } from '#/lib/query/client'
@@ -28,6 +29,7 @@ if (!rootElement.innerHTML) {
   root.render(
     <QueryProvider onSessionEnded={onSessionEnded}>
       <RouterProvider router={router} />
+      <Toaster position="top-center" duration={4000} closeButton={false} />
     </QueryProvider>,
   )
 }

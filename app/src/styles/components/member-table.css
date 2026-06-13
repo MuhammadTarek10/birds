@@ -1,0 +1,78 @@
+@layer components {
+  .member-table {
+    @apply flex flex-col;
+    border-top: 1px solid var(--color-outline-variant);
+  }
+
+  .member-row {
+    @apply flex items-center gap-4 px-4 py-4;
+    border-bottom: 1px solid var(--color-outline-variant);
+    transition: background-color 160ms ease;
+  }
+  .member-row:hover {
+    background-color: color-mix(
+      in srgb,
+      var(--color-surface-container-low) 70%,
+      transparent
+    );
+  }
+
+  .member-row__avatar {
+    @apply inline-flex items-center justify-center shrink-0;
+    width: 40px;
+    height: 40px;
+    border-radius: 9999px;
+    background-color: color-mix(
+      in srgb,
+      var(--color-secondary-fixed) 70%,
+      transparent
+    );
+    color: var(--color-on-secondary-fixed);
+    border: 1px solid color-mix(in srgb, var(--color-secondary) 50%, transparent);
+    font-family: var(--font-label);
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+  }
+
+  .member-row__identity {
+    @apply flex flex-col flex-1 min-w-0;
+  }
+  .member-row__name {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 18px;
+    line-height: 22px;
+    color: var(--color-on-surface);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .member-row__name--email {
+    font-family: var(--font-body);
+    font-style: normal;
+    font-size: 16px;
+  }
+  .member-row__email {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-on-surface-variant);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .member-row__joined {
+    font-family: var(--font-label);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-on-surface-variant);
+    min-width: 120px;
+    text-align: right;
+  }
+
+  .member-row__role {
+    min-width: 72px;
+  }
+}

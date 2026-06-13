@@ -1,11 +1,16 @@
-import { Outlet } from '@tanstack/react-router'
+import { Outlet, useParams } from '@tanstack/react-router'
 import { Button } from '#/components/ui/Button'
 import { LogOutIcon } from '#/components/ui/icons/LogOutIcon'
 import { Text } from '#/components/ui/Text'
+import { PodSwitcher } from '#/features/pods/components/PodSwitcher'
 import { useLogout } from '../hooks/use-logout'
 import { useMe } from '../hooks/use-me'
 
-const initialsOf = (me: { firstName: string | null; lastName: string | null; email: string }) => {
+const initialsOf = (me: {
+  firstName: string | null
+  lastName: string | null
+  email: string
+}) => {
   const first = me.firstName?.trim()[0]
   const last = me.lastName?.trim()[0]
   if (first || last) return `${first ?? ''}${last ?? ''}`.toUpperCase()
@@ -15,13 +20,12 @@ const initialsOf = (me: { firstName: string | null; lastName: string | null; ema
 export const AppShell = () => {
   const me = useMe()
   const logout = useLogout()
+  const params = useParams({ strict: false })
 
   return (
     <div className="appshell">
       <header className="appshell-header">
-        <Text as="span" variant="title-md" className="appshell-brand">
-          Birds
-        </Text>
+        <PodSwitcher activePodId={params.podId} />
         <div className="appshell-actions">
           {me.data ? (
             <div className="appshell-identity">

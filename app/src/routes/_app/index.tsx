@@ -1,27 +1,19 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { Text } from '#/components/ui/Text'
-import { useMe } from '#/features/auth/hooks/use-me'
+import { createFileRoute, redirect } from '@tanstack/react-router'
+import { podsListQuery } from '#/features/pods/api/queries'
+import { readLastPodId } from '#/features/pods/hooks/use-last-pod-id'
 
 export const Route = createFileRoute('/_app/')({
-  component: Home,
+  beforeLoad: async ({ context }) => {
+    const pods = await context.queryClient
+      .ensureQueryData(podsListQuery)
+      .catch(() => [])
+    const last = readLastPodId()
+    const target =
+      (last ? pods.find((p) => p.id === last) : undefined) ??
+      (pods.length > 0 ? pods[0] : undefined)
+    if (target) {
+      throw redirect({ to: '/pods/$podId', params: { podId: target.id } })
+    }
+    throw redirect({ to: '/pods' })
+  },
 })
-
-function Home() {
-  const me = useMe()
-  const firstName = me.data?.firstName
-
-  return (
-    <main className="mx-auto max-w-4xl px-8 py-16 flex flex-col gap-stack-md">
-      <Text as="span" variant="label-md">
-        Your archive
-      </Text>
-      <Text as="h1" variant="display-lg" className="text-on-surface italic">
-        {firstName ? `Welcome back, ${firstName}.` : 'Welcome back.'}
-      </Text>
-      <Text variant="body-lg" className="text-on-surface-variant max-w-prose">
-        Pods, memories, and quiet rituals will land here. For now, your vault is
-        ready and waiting.
-      </Text>
-    </main>
-  )
-}

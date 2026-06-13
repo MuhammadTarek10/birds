@@ -17,6 +17,12 @@ import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
 import { Route as DevAtomsRouteImport } from './routes/_dev/atoms'
 import { Route as AuthRegisterRouteImport } from './routes/_auth/register'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
+import { Route as AppPodsIndexRouteImport } from './routes/_app/pods/index'
+import { Route as AppPodsPodIdRouteRouteImport } from './routes/_app/pods/$podId/route'
+import { Route as AppPodsPodIdIndexRouteImport } from './routes/_app/pods/$podId/index'
+import { Route as AppPodsPodIdSettingsRouteImport } from './routes/_app/pods/$podId/settings'
+import { Route as AppPodsPodIdMembersRouteImport } from './routes/_app/pods/$podId/members'
+import { Route as AppPodsPodIdInvitesRouteImport } from './routes/_app/pods/$podId/invites'
 
 const AuthRouteRoute = AuthRouteRouteImport.update({
   id: '/_auth',
@@ -56,6 +62,36 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => AuthRouteRoute,
 } as any)
+const AppPodsIndexRoute = AppPodsIndexRouteImport.update({
+  id: '/pods/',
+  path: '/pods/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppPodsPodIdRouteRoute = AppPodsPodIdRouteRouteImport.update({
+  id: '/pods/$podId',
+  path: '/pods/$podId',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppPodsPodIdIndexRoute = AppPodsPodIdIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppPodsPodIdRouteRoute,
+} as any)
+const AppPodsPodIdSettingsRoute = AppPodsPodIdSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppPodsPodIdRouteRoute,
+} as any)
+const AppPodsPodIdMembersRoute = AppPodsPodIdMembersRouteImport.update({
+  id: '/members',
+  path: '/members',
+  getParentRoute: () => AppPodsPodIdRouteRoute,
+} as any)
+const AppPodsPodIdInvitesRoute = AppPodsPodIdInvitesRouteImport.update({
+  id: '/invites',
+  path: '/invites',
+  getParentRoute: () => AppPodsPodIdRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
@@ -64,6 +100,12 @@ export interface FileRoutesByFullPath {
   '/atoms': typeof DevAtomsRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/invite/$token': typeof InviteTokenRoute
+  '/pods/$podId': typeof AppPodsPodIdRouteRouteWithChildren
+  '/pods/': typeof AppPodsIndexRoute
+  '/pods/$podId/invites': typeof AppPodsPodIdInvitesRoute
+  '/pods/$podId/members': typeof AppPodsPodIdMembersRoute
+  '/pods/$podId/settings': typeof AppPodsPodIdSettingsRoute
+  '/pods/$podId/': typeof AppPodsPodIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof AppIndexRoute
@@ -72,6 +114,11 @@ export interface FileRoutesByTo {
   '/atoms': typeof DevAtomsRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/invite/$token': typeof InviteTokenRoute
+  '/pods': typeof AppPodsIndexRoute
+  '/pods/$podId/invites': typeof AppPodsPodIdInvitesRoute
+  '/pods/$podId/members': typeof AppPodsPodIdMembersRoute
+  '/pods/$podId/settings': typeof AppPodsPodIdSettingsRoute
+  '/pods/$podId': typeof AppPodsPodIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -83,6 +130,12 @@ export interface FileRoutesById {
   '/auth/callback': typeof AuthCallbackRoute
   '/invite/$token': typeof InviteTokenRoute
   '/_app/': typeof AppIndexRoute
+  '/_app/pods/$podId': typeof AppPodsPodIdRouteRouteWithChildren
+  '/_app/pods/': typeof AppPodsIndexRoute
+  '/_app/pods/$podId/invites': typeof AppPodsPodIdInvitesRoute
+  '/_app/pods/$podId/members': typeof AppPodsPodIdMembersRoute
+  '/_app/pods/$podId/settings': typeof AppPodsPodIdSettingsRoute
+  '/_app/pods/$podId/': typeof AppPodsPodIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -93,6 +146,12 @@ export interface FileRouteTypes {
     | '/atoms'
     | '/auth/callback'
     | '/invite/$token'
+    | '/pods/$podId'
+    | '/pods/'
+    | '/pods/$podId/invites'
+    | '/pods/$podId/members'
+    | '/pods/$podId/settings'
+    | '/pods/$podId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -101,6 +160,11 @@ export interface FileRouteTypes {
     | '/atoms'
     | '/auth/callback'
     | '/invite/$token'
+    | '/pods'
+    | '/pods/$podId/invites'
+    | '/pods/$podId/members'
+    | '/pods/$podId/settings'
+    | '/pods/$podId'
   id:
     | '__root__'
     | '/_app'
@@ -111,6 +175,12 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/invite/$token'
     | '/_app/'
+    | '/_app/pods/$podId'
+    | '/_app/pods/'
+    | '/_app/pods/$podId/invites'
+    | '/_app/pods/$podId/members'
+    | '/_app/pods/$podId/settings'
+    | '/_app/pods/$podId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -179,15 +249,78 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof AuthRouteRoute
     }
+    '/_app/pods/': {
+      id: '/_app/pods/'
+      path: '/pods'
+      fullPath: '/pods/'
+      preLoaderRoute: typeof AppPodsIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/pods/$podId': {
+      id: '/_app/pods/$podId'
+      path: '/pods/$podId'
+      fullPath: '/pods/$podId'
+      preLoaderRoute: typeof AppPodsPodIdRouteRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/pods/$podId/': {
+      id: '/_app/pods/$podId/'
+      path: '/'
+      fullPath: '/pods/$podId/'
+      preLoaderRoute: typeof AppPodsPodIdIndexRouteImport
+      parentRoute: typeof AppPodsPodIdRouteRoute
+    }
+    '/_app/pods/$podId/settings': {
+      id: '/_app/pods/$podId/settings'
+      path: '/settings'
+      fullPath: '/pods/$podId/settings'
+      preLoaderRoute: typeof AppPodsPodIdSettingsRouteImport
+      parentRoute: typeof AppPodsPodIdRouteRoute
+    }
+    '/_app/pods/$podId/members': {
+      id: '/_app/pods/$podId/members'
+      path: '/members'
+      fullPath: '/pods/$podId/members'
+      preLoaderRoute: typeof AppPodsPodIdMembersRouteImport
+      parentRoute: typeof AppPodsPodIdRouteRoute
+    }
+    '/_app/pods/$podId/invites': {
+      id: '/_app/pods/$podId/invites'
+      path: '/invites'
+      fullPath: '/pods/$podId/invites'
+      preLoaderRoute: typeof AppPodsPodIdInvitesRouteImport
+      parentRoute: typeof AppPodsPodIdRouteRoute
+    }
   }
 }
 
+interface AppPodsPodIdRouteRouteChildren {
+  AppPodsPodIdInvitesRoute: typeof AppPodsPodIdInvitesRoute
+  AppPodsPodIdMembersRoute: typeof AppPodsPodIdMembersRoute
+  AppPodsPodIdSettingsRoute: typeof AppPodsPodIdSettingsRoute
+  AppPodsPodIdIndexRoute: typeof AppPodsPodIdIndexRoute
+}
+
+const AppPodsPodIdRouteRouteChildren: AppPodsPodIdRouteRouteChildren = {
+  AppPodsPodIdInvitesRoute: AppPodsPodIdInvitesRoute,
+  AppPodsPodIdMembersRoute: AppPodsPodIdMembersRoute,
+  AppPodsPodIdSettingsRoute: AppPodsPodIdSettingsRoute,
+  AppPodsPodIdIndexRoute: AppPodsPodIdIndexRoute,
+}
+
+const AppPodsPodIdRouteRouteWithChildren =
+  AppPodsPodIdRouteRoute._addFileChildren(AppPodsPodIdRouteRouteChildren)
+
 interface AppRouteRouteChildren {
   AppIndexRoute: typeof AppIndexRoute
+  AppPodsPodIdRouteRoute: typeof AppPodsPodIdRouteRouteWithChildren
+  AppPodsIndexRoute: typeof AppPodsIndexRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppIndexRoute: AppIndexRoute,
+  AppPodsPodIdRouteRoute: AppPodsPodIdRouteRouteWithChildren,
+  AppPodsIndexRoute: AppPodsIndexRoute,
 }
 
 const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(

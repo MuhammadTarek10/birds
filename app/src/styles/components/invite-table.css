@@ -1,0 +1,96 @@
+@layer components {
+  .invite-create {
+    @apply mb-10 flex flex-col gap-5 px-8 py-8;
+    background-color: var(--color-surface-container-lowest);
+    border: 1px solid color-mix(in srgb, var(--color-secondary) 30%, transparent);
+    border-radius: var(--radius-lg);
+    border-top-left-radius: 24px 18px;
+  }
+
+  .invite-create__expiry {
+    @apply inline-flex items-center gap-0;
+    padding: 2px;
+    background-color: color-mix(
+      in srgb,
+      var(--color-surface-container) 70%,
+      transparent
+    );
+    border: 1px solid color-mix(in srgb, var(--color-secondary) 30%, transparent);
+    border-radius: 9999px;
+    width: fit-content;
+  }
+  .invite-create__expiry-option {
+    @apply inline-flex items-center justify-center px-4 py-1.5 cursor-pointer;
+    border-radius: 9999px;
+    border: none;
+    background: transparent;
+    color: var(--color-on-surface-variant);
+    font-family: var(--font-label);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    transition: background-color 160ms ease, color 160ms ease;
+  }
+  .invite-create__expiry-option[data-active='true'] {
+    background-color: var(--color-secondary-fixed-dim);
+    color: var(--color-on-secondary-fixed);
+  }
+
+  .invite-table {
+    @apply flex flex-col;
+    border-top: 1px solid var(--color-outline-variant);
+  }
+
+  .invite-row {
+    @apply flex items-center gap-4 px-4 py-4;
+    border-bottom: 1px solid var(--color-outline-variant);
+  }
+
+  .invite-row__status {
+    min-width: 96px;
+  }
+
+  .invite-row__url {
+    @apply inline-flex items-center gap-2 flex-1 min-w-0;
+    padding: 6px 12px;
+    background-color: color-mix(
+      in srgb,
+      var(--color-surface-container-low) 80%,
+      transparent
+    );
+    border: 1px solid color-mix(in srgb, var(--color-secondary) 30%, transparent);
+    border-radius: 9999px;
+    color: var(--color-on-surface);
+    font-family: var(--font-label);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    overflow: hidden;
+  }
+  .invite-row__url-text {
+    @apply flex-1 min-w-0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .invite-row__email {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-on-surface-variant);
+    min-width: 140px;
+  }
+  .invite-row__email--anyone {
+    font-style: italic;
+  }
+
+  .invite-row__expires {
+    font-family: var(--font-label);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-on-surface-variant);
+    min-width: 120px;
+    text-align: right;
+  }
+}

@@ -1,0 +1,37 @@
+@layer components {
+  .empty-state {
+    @apply flex flex-col items-center text-center mx-auto py-16 px-8;
+    max-width: 480px;
+  }
+
+  .empty-state__ornament {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 32px;
+    color: color-mix(in srgb, var(--color-secondary) 50%, transparent);
+    letter-spacing: 0.2em;
+    line-height: 1;
+    margin-bottom: 18px;
+  }
+
+  .empty-state__eyebrow {
+    color: var(--color-on-surface-variant);
+    margin-bottom: 8px;
+  }
+
+  .empty-state__title {
+    font-style: italic;
+    color: var(--color-on-surface);
+    margin-bottom: 10px;
+  }
+
+  .empty-state__body {
+    color: var(--color-on-surface-variant);
+    font-style: italic;
+    max-width: 36ch;
+  }
+
+  .empty-state__action {
+    margin-top: 24px;
+  }
+}
