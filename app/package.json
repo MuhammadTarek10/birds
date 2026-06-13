@@ -15,11 +15,16 @@
     "check": "prettier --check ."
   },
   "dependencies": {
+    "@fontsource/eb-garamond": "^5.2.7",
+    "@fontsource/playfair-display": "^5.2.8",
+    "@fontsource/source-sans-3": "^5.2.9",
     "@tailwindcss/vite": "^4.3.0",
     "@tanstack/react-devtools": "latest",
+    "@tanstack/react-query": "^5.101.0",
     "@tanstack/react-router": "latest",
     "@tanstack/react-router-devtools": "latest",
     "@tanstack/router-plugin": "^1.132.0",
+    "axios": "^1.17.0",
     "lucide-react": "^1.17.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",

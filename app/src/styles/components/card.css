@@ -1,0 +1,26 @@
+@layer components {
+  .card {
+    @apply block rounded-lg p-6;
+    background-color: var(--color-surface-container-lowest);
+    box-shadow:
+      0 1px 2px color-mix(in srgb, var(--color-tertiary) 8%, transparent),
+      0 8px 24px -12px color-mix(in srgb, var(--color-tertiary) 15%, transparent);
+  }
+
+  .card--vault {
+    @apply relative overflow-hidden;
+    border: 1px solid color-mix(in srgb, var(--color-secondary) 30%, transparent);
+    background-color: var(--color-surface-container-low);
+  }
+
+  .card--vault::after {
+    content: '';
+    @apply pointer-events-none absolute inset-0;
+    background-image: radial-gradient(
+      color-mix(in srgb, var(--color-on-surface) 4%, transparent) 1px,
+      transparent 1px
+    );
+    background-size: 3px 3px;
+    opacity: 0.6;
+  }
+}

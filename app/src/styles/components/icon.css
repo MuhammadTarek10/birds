@@ -1,0 +1,35 @@
+@layer components {
+  .icon {
+    @apply inline-block shrink-0;
+    stroke-width: 1.5;
+  }
+
+  .icon--sm {
+    width: 16px;
+    height: 16px;
+  }
+  .icon--md {
+    width: 20px;
+    height: 20px;
+  }
+  .icon--lg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .icon--primary {
+    color: var(--color-primary);
+  }
+  .icon--gold {
+    color: var(--color-secondary);
+  }
+  .icon--muted {
+    color: var(--color-on-surface-variant);
+  }
+  .icon--danger {
+    color: var(--color-error);
+  }
+  .icon--current {
+    color: currentColor;
+  }
+}

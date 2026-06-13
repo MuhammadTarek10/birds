@@ -1,0 +1,61 @@
+@layer components {
+  .text-input-field {
+    @apply relative w-full;
+  }
+
+  .text-input {
+    @apply block w-full h-12 px-4 pt-4
+           bg-transparent
+           border-0 border-b
+           outline-none
+           transition-colors;
+    border-bottom-color: color-mix(in srgb, var(--color-secondary) 40%, transparent);
+    color: var(--color-on-surface);
+    font-family: var(--font-body);
+  }
+
+  .text-input::placeholder {
+    color: transparent;
+  }
+
+  .text-input:focus {
+    border-bottom-color: var(--color-secondary);
+    box-shadow: 0 4px 12px -8px color-mix(in srgb, var(--color-primary) 40%, transparent);
+  }
+
+  .text-input--invalid,
+  .text-input[aria-invalid='true'] {
+    border-bottom-color: var(--color-error);
+  }
+
+  .text-input:disabled {
+    @apply cursor-not-allowed opacity-50;
+  }
+
+  .text-input-label {
+    @apply absolute left-4 top-3
+           pointer-events-none
+           transition-all duration-150;
+    color: var(--color-on-surface-variant);
+    font-family: var(--font-label);
+    font-size: 14px;
+  }
+
+  .text-input:focus + .text-input-label,
+  .text-input:not(:placeholder-shown) + .text-input-label {
+    @apply top-0 text-xs;
+    color: var(--color-secondary);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .text-input-help {
+    @apply mt-1 block text-xs;
+    color: var(--color-on-surface-variant);
+    font-family: var(--font-label);
+  }
+
+  .text-input-help--error {
+    color: var(--color-error);
+  }
+}
