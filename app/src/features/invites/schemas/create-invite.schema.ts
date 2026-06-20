@@ -8,7 +8,6 @@ export const EXPIRY_OPTIONS = [
 
 export const createInviteSchema = z.object({
   email: z
-    .string()
     .email('Enter a valid email')
     .optional()
     .or(z.literal('').transform(() => undefined)),
