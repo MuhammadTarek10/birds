@@ -1,4 +1,5 @@
-import { useMutation, useQueryClient, type InfiniteData } from '@tanstack/react-query'
+import type { InfiniteData } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 import { memoriesService } from './services/memories.service'
 import { commentsService } from './services/comments.service'

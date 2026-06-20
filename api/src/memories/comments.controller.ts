@@ -47,7 +47,10 @@ export class CommentsController {
   @ApiOperation({ summary: 'List comments for a memory' })
   @ApiOkResponse({ type: CommentListEnvelope })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Memory not found' })
-  @ApiForbiddenResponse({ type: ErrorResponse, description: 'Not a pod member' })
+  @ApiForbiddenResponse({
+    type: ErrorResponse,
+    description: 'Not a pod member',
+  })
   async listForMemory(
     @Param('memoryId', ParseUUIDPipe) memoryId: string,
     @CurrentUser() user: CurrentUserPayload,
@@ -74,7 +77,10 @@ export class CommentsController {
   @ApiOperation({ summary: 'Add a comment to a memory' })
   @ApiCreatedResponse({ type: CommentEnvelope })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Memory not found' })
-  @ApiForbiddenResponse({ type: ErrorResponse, description: 'Not a pod member' })
+  @ApiForbiddenResponse({
+    type: ErrorResponse,
+    description: 'Not a pod member',
+  })
   async create(
     @Param('memoryId', ParseUUIDPipe) memoryId: string,
     @Body() dto: CreateCommentDto,
@@ -101,7 +107,10 @@ export class CommentsController {
   @ResponseMessage('Comment updated')
   @ApiOperation({ summary: 'Update a comment (author only)' })
   @ApiOkResponse({ type: CommentEnvelope })
-  @ApiNotFoundResponse({ type: ErrorResponse, description: 'Comment not found' })
+  @ApiNotFoundResponse({
+    type: ErrorResponse,
+    description: 'Comment not found',
+  })
   @ApiForbiddenResponse({ type: ErrorResponse, description: 'Not the author' })
   async update(
     @Param('id', ParseUUIDPipe) id: string,
@@ -124,7 +133,10 @@ export class CommentsController {
   @UseGuards(CommentAuthorGuard)
   @ApiOperation({ summary: 'Delete a comment (author only)' })
   @ApiNoContentResponse({ description: 'Comment deleted' })
-  @ApiNotFoundResponse({ type: ErrorResponse, description: 'Comment not found' })
+  @ApiNotFoundResponse({
+    type: ErrorResponse,
+    description: 'Comment not found',
+  })
   @ApiForbiddenResponse({ type: ErrorResponse, description: 'Not the author' })
   async delete(@Param('id', ParseUUIDPipe) id: string) {
     await this.commentsService.delete(id);

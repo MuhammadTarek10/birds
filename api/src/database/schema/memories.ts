@@ -1,5 +1,12 @@
 import { relations } from 'drizzle-orm';
-import { date, index, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
+import {
+  date,
+  index,
+  pgTable,
+  text,
+  timestamp,
+  uuid,
+} from 'drizzle-orm/pg-core';
 import { pods } from './pods';
 import { users } from './users';
 
@@ -20,12 +27,17 @@ export const memories = pgTable(
     createdAt: timestamp('created_at', { precision: 0, mode: 'date' })
       .notNull()
       .defaultNow(),
-    updatedAt: timestamp('updated_at', { precision: 0, mode: 'date' }).$onUpdate(
-      () => new Date(),
-    ),
+    updatedAt: timestamp('updated_at', {
+      precision: 0,
+      mode: 'date',
+    }).$onUpdate(() => new Date()),
   },
   (t) => [
-    index('memories_pod_event_date_id_idx').on(t.podId, t.eventDate.desc(), t.id.desc()),
+    index('memories_pod_event_date_id_idx').on(
+      t.podId,
+      t.eventDate.desc(),
+      t.id.desc(),
+    ),
   ],
 );
 

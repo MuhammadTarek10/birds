@@ -14,7 +14,10 @@ export class CreateMemoryDto {
   @MaxLength(200)
   title!: string;
 
-  @ApiProperty({ example: '2026-06-20', description: 'Date-only ISO 8601 string' })
+  @ApiProperty({
+    example: '2026-06-20',
+    description: 'Date-only ISO 8601 string',
+  })
   @IsISO8601({ strict: true })
   eventDate!: string;
 

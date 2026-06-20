@@ -3,7 +3,8 @@ import { useForm } from 'react-hook-form'
 import { Button } from '#/components/ui/Button'
 import { TextInput } from '#/components/ui/TextInput'
 import { DatePicker } from '#/components/ui/DatePicker'
-import { createMemorySchema, type CreateMemoryInput } from '../schemas/create-memory.schema'
+import type { CreateMemoryInput } from '../schemas/create-memory.schema'
+import { createMemorySchema } from '../schemas/create-memory.schema'
 
 export type MemoryFormProps = {
   defaultValues?: Partial<CreateMemoryInput>

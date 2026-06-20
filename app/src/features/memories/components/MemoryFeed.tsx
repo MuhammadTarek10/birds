@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
-import { useInfiniteQuery, type InfiniteData } from '@tanstack/react-query'
+import type { InfiniteData } from '@tanstack/react-query'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import { EmptyState } from '#/components/ui/EmptyState'
 import { Button } from '#/components/ui/Button'
 import { memoriesInfiniteQuery } from '../queries'

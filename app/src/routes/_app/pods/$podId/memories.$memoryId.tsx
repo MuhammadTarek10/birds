@@ -30,7 +30,7 @@ function MemoryDetailPage() {
 
   if (!memory || !me.data) return null
 
-  const isAuthor = memory.userId === me.data?.id
+  const isAuthor = memory.userId === me.data.id
 
   return (
     <main className="pod-page">

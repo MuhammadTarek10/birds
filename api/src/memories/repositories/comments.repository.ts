@@ -131,7 +131,10 @@ export class CommentsRepository extends BaseRepository {
     return result;
   }
 
-  async update(id: string, content: string): Promise<CommentWithAuthorRow | null> {
+  async update(
+    id: string,
+    content: string,
+  ): Promise<CommentWithAuthorRow | null> {
     const [updated] = await this.db()
       .update(comments)
       .set({ content })

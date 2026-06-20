@@ -50,7 +50,10 @@ export class MemoriesController {
   @ResponseMessage('Memories retrieved')
   @ApiOperation({ summary: 'List memories in a pod (cursor-paginated)' })
   @ApiOkResponse({ type: MemoryListEnvelope })
-  @ApiForbiddenResponse({ type: ErrorResponse, description: 'Not a pod member' })
+  @ApiForbiddenResponse({
+    type: ErrorResponse,
+    description: 'Not a pod member',
+  })
   async list(
     @Param('podId', ParseUUIDPipe) podId: string,
     @Query() query: ListMemoriesQuery,
@@ -81,7 +84,10 @@ export class MemoriesController {
   @ResponseMessage('Memory created')
   @ApiOperation({ summary: 'Create a memory in a pod' })
   @ApiCreatedResponse({ type: MemoryEnvelope })
-  @ApiForbiddenResponse({ type: ErrorResponse, description: 'Not a pod member' })
+  @ApiForbiddenResponse({
+    type: ErrorResponse,
+    description: 'Not a pod member',
+  })
   async create(
     @Param('podId', ParseUUIDPipe) podId: string,
     @Body() dto: CreateMemoryDto,
@@ -107,7 +113,10 @@ export class MemoriesController {
   @ApiOperation({ summary: 'Get a single memory (membership checked)' })
   @ApiOkResponse({ type: MemoryEnvelope })
   @ApiNotFoundResponse({ type: ErrorResponse, description: 'Memory not found' })
-  @ApiForbiddenResponse({ type: ErrorResponse, description: 'Not a pod member' })
+  @ApiForbiddenResponse({
+    type: ErrorResponse,
+    description: 'Not a pod member',
+  })
   async getById(
     @Param('id', ParseUUIDPipe) id: string,
     @CurrentUser() user: CurrentUserPayload,

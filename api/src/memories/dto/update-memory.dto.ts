@@ -15,7 +15,10 @@ export class UpdateMemoryDto {
   @MaxLength(200)
   title?: string;
 
-  @ApiPropertyOptional({ example: '2026-06-20', description: 'Date-only ISO 8601 string' })
+  @ApiPropertyOptional({
+    example: '2026-06-20',
+    description: 'Date-only ISO 8601 string',
+  })
   @IsOptional()
   @IsISO8601({ strict: true })
   eventDate?: string;
