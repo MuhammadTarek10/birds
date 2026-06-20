@@ -7,7 +7,6 @@ import { PodMembersRepository } from '../pods/repositories/pod-members.repositor
 import { CreateCommentDto } from './dto/create-comment.dto';
 import {
   CommentsRepository,
-  type CommentRow,
   type CommentWithAuthorRow,
 } from './repositories/comments.repository';
 import { MemoriesRepository } from './repositories/memories.repository';
@@ -57,7 +56,7 @@ export class CommentsService {
     });
   }
 
-  async update(id: string, content: string): Promise<CommentRow> {
+  async update(id: string, content: string): Promise<CommentWithAuthorRow> {
     const updated = await this.commentsRepo.update(id, content);
     if (!updated) throw new NotFoundException('Comment not found');
     return updated;

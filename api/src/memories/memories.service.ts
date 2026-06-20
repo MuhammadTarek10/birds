@@ -9,7 +9,6 @@ import { ListMemoriesQuery } from './dto/list-memories.query';
 import { UpdateMemoryDto } from './dto/update-memory.dto';
 import {
   MemoriesRepository,
-  type MemoryRow,
   type MemoryWithAuthorRow,
 } from './repositories/memories.repository';
 
@@ -32,8 +31,8 @@ export class MemoriesService {
     return { memories: rows, nextCursor };
   }
 
-  async findById(id: string, userId: string): Promise<MemoryRow> {
-    const memory = await this.memoriesRepo.findById(id);
+  async findById(id: string, userId: string): Promise<MemoryWithAuthorRow> {
+    const memory = await this.memoriesRepo.findByIdWithAuthor(id);
     if (!memory) throw new NotFoundException('Memory not found');
 
     const membership = await this.podMembersRepo.findByPodAndUser(
@@ -60,7 +59,7 @@ export class MemoriesService {
     });
   }
 
-  async update(id: string, dto: UpdateMemoryDto): Promise<MemoryRow> {
+  async update(id: string, dto: UpdateMemoryDto): Promise<MemoryWithAuthorRow> {
     const updated = await this.memoriesRepo.update(id, {
       title: dto.title,
       eventDate: dto.eventDate,

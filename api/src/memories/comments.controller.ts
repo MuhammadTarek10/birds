@@ -118,6 +118,7 @@ export class CommentsController {
       content: comment.content,
       createdAt: comment.createdAt,
       updatedAt: comment.updatedAt,
+      author: { id: comment.authorId, name: comment.authorName },
     };
   }
 

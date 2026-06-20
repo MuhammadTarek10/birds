@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { and, desc, eq, lt, or, sql } from 'drizzle-orm';
+import { and, desc, eq, lt, or } from 'drizzle-orm';
 import { BaseRepository } from '../../database/base-repository';
 import { TransactionManager } from '../../database/transaction-manager';
 import { memories, users, usersProfiles } from '../../database/schema';
@@ -121,6 +121,49 @@ export class MemoriesRepository extends BaseRepository {
     };
   }
 
+  async findByIdWithAuthor(id: string): Promise<MemoryWithAuthorRow | null> {
+    const [row] = await this.db()
+      .select({
+        id: memories.id,
+        podId: memories.podId,
+        userId: memories.userId,
+        title: memories.title,
+        description: memories.description,
+        location: memories.location,
+        eventDate: memories.eventDate,
+        createdAt: memories.createdAt,
+        updatedAt: memories.updatedAt,
+        authorId: users.id,
+        email: users.email,
+        firstName: usersProfiles.firstName,
+        lastName: usersProfiles.lastName,
+      })
+      .from(memories)
+      .innerJoin(users, eq(users.id, memories.userId))
+      .leftJoin(usersProfiles, eq(usersProfiles.userId, users.id))
+      .where(eq(memories.id, id))
+      .limit(1);
+
+    if (!row) return null;
+
+    return {
+      id: row.id,
+      podId: row.podId,
+      userId: row.userId,
+      title: row.title,
+      description: row.description,
+      location: row.location,
+      eventDate: row.eventDate,
+      createdAt: row.createdAt,
+      updatedAt: row.updatedAt,
+      authorId: row.authorId,
+      authorName:
+        row.firstName || row.lastName
+          ? `${row.firstName ?? ''} ${row.lastName ?? ''}`.trim()
+          : row.email,
+    };
+  }
+
   async create(input: {
     podId: string;
     userId: string;
@@ -139,40 +182,10 @@ export class MemoriesRepository extends BaseRepository {
         description: input.description ?? null,
         location: input.location ?? null,
       })
-      .returning({
-        id: memories.id,
-        podId: memories.podId,
-        userId: memories.userId,
-        title: memories.title,
-        description: memories.description,
-        location: memories.location,
-        eventDate: memories.eventDate,
-        createdAt: memories.createdAt,
-        updatedAt: memories.updatedAt,
-      });
+      .returning({ id: memories.id });
 
-    const [userRow] = await this.db()
-      .select({
-        id: users.id,
-        email: users.email,
-        firstName: usersProfiles.firstName,
-        lastName: usersProfiles.lastName,
-      })
-      .from(users)
-      .leftJoin(usersProfiles, eq(usersProfiles.userId, users.id))
-      .where(eq(users.id, input.userId))
-      .limit(1);
-
-    const authorName =
-      userRow.firstName || userRow.lastName
-        ? `${userRow.firstName ?? ''} ${userRow.lastName ?? ''}`.trim()
-        : userRow.email;
-
-    return {
-      ...inserted,
-      authorId: userRow.id,
-      authorName,
-    };
+    const result = await this.findByIdWithAuthor(inserted.id);
+    return result!;
   }
 
   async update(
@@ -183,23 +196,23 @@ export class MemoriesRepository extends BaseRepository {
       description: string;
       location: string;
     }>,
-  ): Promise<MemoryRow | null> {
-    const [row] = await this.db()
+  ): Promise<MemoryWithAuthorRow | null> {
+    const fields = Object.fromEntries(
+      Object.entries(input).filter(([, v]) => v !== undefined),
+    );
+    if (Object.keys(fields).length === 0) {
+      return this.findByIdWithAuthor(id);
+    }
+
+    const [updated] = await this.db()
       .update(memories)
-      .set(input)
+      .set(fields)
       .where(eq(memories.id, id))
-      .returning({
-        id: memories.id,
-        podId: memories.podId,
-        userId: memories.userId,
-        title: memories.title,
-        description: memories.description,
-        location: memories.location,
-        eventDate: memories.eventDate,
-        createdAt: memories.createdAt,
-        updatedAt: memories.updatedAt,
-      });
-    return row ?? null;
+      .returning({ id: memories.id });
+
+    if (!updated) return null;
+
+    return this.findByIdWithAuthor(updated.id);
   }
 
   async delete(id: string): Promise<boolean> {

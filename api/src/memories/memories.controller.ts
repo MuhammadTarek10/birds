@@ -123,6 +123,7 @@ export class MemoriesController {
       eventDate: memory.eventDate,
       createdAt: memory.createdAt,
       updatedAt: memory.updatedAt,
+      author: { id: memory.authorId, name: memory.authorName },
     };
   }
 
@@ -148,6 +149,7 @@ export class MemoriesController {
       eventDate: memory.eventDate,
       createdAt: memory.createdAt,
       updatedAt: memory.updatedAt,
+      author: { id: memory.authorId, name: memory.authorName },
     };
   }
 

@@ -75,6 +75,43 @@ export class CommentsRepository extends BaseRepository {
     }));
   }
 
+  async findByIdWithAuthor(id: string): Promise<CommentWithAuthorRow | null> {
+    const [row] = await this.db()
+      .select({
+        id: comments.id,
+        memoryId: comments.memoryId,
+        userId: comments.userId,
+        content: comments.content,
+        createdAt: comments.createdAt,
+        updatedAt: comments.updatedAt,
+        authorId: users.id,
+        email: users.email,
+        firstName: usersProfiles.firstName,
+        lastName: usersProfiles.lastName,
+      })
+      .from(comments)
+      .innerJoin(users, eq(users.id, comments.userId))
+      .leftJoin(usersProfiles, eq(usersProfiles.userId, users.id))
+      .where(eq(comments.id, id))
+      .limit(1);
+
+    if (!row) return null;
+
+    return {
+      id: row.id,
+      memoryId: row.memoryId,
+      userId: row.userId,
+      content: row.content,
+      createdAt: row.createdAt,
+      updatedAt: row.updatedAt,
+      authorId: row.authorId,
+      authorName:
+        row.firstName || row.lastName
+          ? `${row.firstName ?? ''} ${row.lastName ?? ''}`.trim()
+          : row.email,
+    };
+  }
+
   async create(input: {
     memoryId: string;
     userId: string;
@@ -87,53 +124,22 @@ export class CommentsRepository extends BaseRepository {
         userId: input.userId,
         content: input.content,
       })
-      .returning({
-        id: comments.id,
-        memoryId: comments.memoryId,
-        userId: comments.userId,
-        content: comments.content,
-        createdAt: comments.createdAt,
-        updatedAt: comments.updatedAt,
-      });
+      .returning({ id: comments.id });
 
-    const [userRow] = await this.db()
-      .select({
-        id: users.id,
-        email: users.email,
-        firstName: usersProfiles.firstName,
-        lastName: usersProfiles.lastName,
-      })
-      .from(users)
-      .leftJoin(usersProfiles, eq(usersProfiles.userId, users.id))
-      .where(eq(users.id, input.userId))
-      .limit(1);
-
-    const authorName =
-      userRow.firstName || userRow.lastName
-        ? `${userRow.firstName ?? ''} ${userRow.lastName ?? ''}`.trim()
-        : userRow.email;
-
-    return {
-      ...inserted,
-      authorId: userRow.id,
-      authorName,
-    };
+    const result = await this.findByIdWithAuthor(inserted.id);
+    return result!;
   }
 
-  async update(id: string, content: string): Promise<CommentRow | null> {
-    const [row] = await this.db()
+  async update(id: string, content: string): Promise<CommentWithAuthorRow | null> {
+    const [updated] = await this.db()
       .update(comments)
       .set({ content })
       .where(eq(comments.id, id))
-      .returning({
-        id: comments.id,
-        memoryId: comments.memoryId,
-        userId: comments.userId,
-        content: comments.content,
-        createdAt: comments.createdAt,
-        updatedAt: comments.updatedAt,
-      });
-    return row ?? null;
+      .returning({ id: comments.id });
+
+    if (!updated) return null;
+
+    return this.findByIdWithAuthor(updated.id);
   }
 
   async delete(id: string): Promise<boolean> {
