@@ -23,6 +23,8 @@ import { Route as AppPodsPodIdIndexRouteImport } from './routes/_app/pods/$podId
 import { Route as AppPodsPodIdSettingsRouteImport } from './routes/_app/pods/$podId/settings'
 import { Route as AppPodsPodIdMembersRouteImport } from './routes/_app/pods/$podId/members'
 import { Route as AppPodsPodIdInvitesRouteImport } from './routes/_app/pods/$podId/invites'
+import { Route as AppPodsPodIdMemoriesRouteImport } from './routes/_app/pods/$podId/memories'
+import { Route as AppPodsPodIdMemoriesMemoryIdRouteImport } from './routes/_app/pods/$podId/memories.$memoryId'
 
 const AuthRouteRoute = AuthRouteRouteImport.update({
   id: '/_auth',
@@ -92,6 +94,17 @@ const AppPodsPodIdInvitesRoute = AppPodsPodIdInvitesRouteImport.update({
   path: '/invites',
   getParentRoute: () => AppPodsPodIdRouteRoute,
 } as any)
+const AppPodsPodIdMemoriesRoute = AppPodsPodIdMemoriesRouteImport.update({
+  id: '/memories',
+  path: '/memories',
+  getParentRoute: () => AppPodsPodIdRouteRoute,
+} as any)
+const AppPodsPodIdMemoriesMemoryIdRoute =
+  AppPodsPodIdMemoriesMemoryIdRouteImport.update({
+    id: '/memories/$memoryId',
+    path: '/memories/$memoryId',
+    getParentRoute: () => AppPodsPodIdRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
@@ -106,6 +119,8 @@ export interface FileRoutesByFullPath {
   '/pods/$podId/members': typeof AppPodsPodIdMembersRoute
   '/pods/$podId/settings': typeof AppPodsPodIdSettingsRoute
   '/pods/$podId/': typeof AppPodsPodIdIndexRoute
+  '/pods/$podId/memories': typeof AppPodsPodIdMemoriesRoute
+  '/pods/$podId/memories/$memoryId': typeof AppPodsPodIdMemoriesMemoryIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof AppIndexRoute
@@ -119,6 +134,8 @@ export interface FileRoutesByTo {
   '/pods/$podId/members': typeof AppPodsPodIdMembersRoute
   '/pods/$podId/settings': typeof AppPodsPodIdSettingsRoute
   '/pods/$podId': typeof AppPodsPodIdIndexRoute
+  '/pods/$podId/memories': typeof AppPodsPodIdMemoriesRoute
+  '/pods/$podId/memories/$memoryId': typeof AppPodsPodIdMemoriesMemoryIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -136,6 +153,8 @@ export interface FileRoutesById {
   '/_app/pods/$podId/members': typeof AppPodsPodIdMembersRoute
   '/_app/pods/$podId/settings': typeof AppPodsPodIdSettingsRoute
   '/_app/pods/$podId/': typeof AppPodsPodIdIndexRoute
+  '/_app/pods/$podId/memories': typeof AppPodsPodIdMemoriesRoute
+  '/_app/pods/$podId/memories/$memoryId': typeof AppPodsPodIdMemoriesMemoryIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -152,6 +171,8 @@ export interface FileRouteTypes {
     | '/pods/$podId/members'
     | '/pods/$podId/settings'
     | '/pods/$podId/'
+    | '/pods/$podId/memories'
+    | '/pods/$podId/memories/$memoryId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -165,6 +186,8 @@ export interface FileRouteTypes {
     | '/pods/$podId/members'
     | '/pods/$podId/settings'
     | '/pods/$podId'
+    | '/pods/$podId/memories'
+    | '/pods/$podId/memories/$memoryId'
   id:
     | '__root__'
     | '/_app'
@@ -181,6 +204,8 @@ export interface FileRouteTypes {
     | '/_app/pods/$podId/members'
     | '/_app/pods/$podId/settings'
     | '/_app/pods/$podId/'
+    | '/_app/pods/$podId/memories'
+    | '/_app/pods/$podId/memories/$memoryId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -291,6 +316,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPodsPodIdInvitesRouteImport
       parentRoute: typeof AppPodsPodIdRouteRoute
     }
+    '/_app/pods/$podId/memories': {
+      id: '/_app/pods/$podId/memories'
+      path: '/memories'
+      fullPath: '/pods/$podId/memories'
+      preLoaderRoute: typeof AppPodsPodIdMemoriesRouteImport
+      parentRoute: typeof AppPodsPodIdRouteRoute
+    }
+    '/_app/pods/$podId/memories/$memoryId': {
+      id: '/_app/pods/$podId/memories/$memoryId'
+      path: '/memories/$memoryId'
+      fullPath: '/pods/$podId/memories/$memoryId'
+      preLoaderRoute: typeof AppPodsPodIdMemoriesMemoryIdRouteImport
+      parentRoute: typeof AppPodsPodIdRouteRoute
+    }
   }
 }
 
@@ -299,6 +338,8 @@ interface AppPodsPodIdRouteRouteChildren {
   AppPodsPodIdMembersRoute: typeof AppPodsPodIdMembersRoute
   AppPodsPodIdSettingsRoute: typeof AppPodsPodIdSettingsRoute
   AppPodsPodIdIndexRoute: typeof AppPodsPodIdIndexRoute
+  AppPodsPodIdMemoriesRoute: typeof AppPodsPodIdMemoriesRoute
+  AppPodsPodIdMemoriesMemoryIdRoute: typeof AppPodsPodIdMemoriesMemoryIdRoute
 }
 
 const AppPodsPodIdRouteRouteChildren: AppPodsPodIdRouteRouteChildren = {
@@ -306,6 +347,8 @@ const AppPodsPodIdRouteRouteChildren: AppPodsPodIdRouteRouteChildren = {
   AppPodsPodIdMembersRoute: AppPodsPodIdMembersRoute,
   AppPodsPodIdSettingsRoute: AppPodsPodIdSettingsRoute,
   AppPodsPodIdIndexRoute: AppPodsPodIdIndexRoute,
+  AppPodsPodIdMemoriesRoute: AppPodsPodIdMemoriesRoute,
+  AppPodsPodIdMemoriesMemoryIdRoute: AppPodsPodIdMemoriesMemoryIdRoute,
 }
 
 const AppPodsPodIdRouteRouteWithChildren =
