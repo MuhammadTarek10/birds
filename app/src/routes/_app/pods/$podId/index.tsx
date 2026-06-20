@@ -1,25 +1,7 @@
-import { useQuery } from '@tanstack/react-query'
-import { createFileRoute } from '@tanstack/react-router'
-import {
-  podDetailQuery,
-  podMembersListQuery,
-} from '#/features/pods/queries'
-import { PodCover } from '#/features/pods/components/PodCover'
+import { createFileRoute, redirect } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/_app/pods/$podId/')({
-  component: PodOverview,
+  beforeLoad: ({ params }) => {
+    throw redirect({ to: '/pods/$podId/memories', params: { podId: params.podId } })
+  },
 })
-
-function PodOverview() {
-  const { podId } = Route.useParams()
-  const pod = useQuery(podDetailQuery(podId))
-  const members = useQuery(podMembersListQuery(podId))
-
-  if (!pod.data) return null
-
-  return (
-    <main className="pod-page">
-      <PodCover pod={pod.data} members={members.data ?? []} />
-    </main>
-  )
-}

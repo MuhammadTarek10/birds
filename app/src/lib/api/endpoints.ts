@@ -19,4 +19,11 @@ export const endpoints = {
     preview: (token: string) => `/invites/${token}`,
     redeem: '/invites/redeem',
   },
+  memories: {
+    list: (podId: string) => `/pods/${podId}/memories`,
+    detail: (id: string) => `/memories/${id}`,
+    create: (podId: string) => `/pods/${podId}/memories`,
+    comments: (memoryId: string) => `/memories/${memoryId}/comments`,
+    comment: (id: string) => `/comments/${id}`,
+  },
 } as const

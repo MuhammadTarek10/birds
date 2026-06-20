@@ -1,15 +1,15 @@
 import { Link, useLocation } from '@tanstack/react-router'
 import { useLayoutEffect, useRef, useState } from 'react'
 
-type TabKey = 'overview' | 'members' | 'invites' | 'settings'
+type TabKey = 'memories' | 'members' | 'invites' | 'settings'
 type TabRoute =
-  | '/pods/$podId'
+  | '/pods/$podId/memories'
   | '/pods/$podId/members'
   | '/pods/$podId/invites'
   | '/pods/$podId/settings'
 
 const TABS: ReadonlyArray<{ key: TabKey; label: string; to: TabRoute }> = [
-  { key: 'overview', label: 'Overview', to: '/pods/$podId' },
+  { key: 'memories', label: 'Memories', to: '/pods/$podId/memories' },
   { key: 'members', label: 'Members', to: '/pods/$podId/members' },
   { key: 'invites', label: 'Invites', to: '/pods/$podId/invites' },
   { key: 'settings', label: 'Settings', to: '/pods/$podId/settings' },
@@ -17,10 +17,11 @@ const TABS: ReadonlyArray<{ key: TabKey; label: string; to: TabRoute }> = [
 
 const activeTabFromPath = (pathname: string, podId: string): TabKey => {
   const base = `/pods/${podId}`
+  if (pathname.startsWith(`${base}/memories`)) return 'memories'
   if (pathname.startsWith(`${base}/members`)) return 'members'
   if (pathname.startsWith(`${base}/invites`)) return 'invites'
   if (pathname.startsWith(`${base}/settings`)) return 'settings'
-  return 'overview'
+  return 'memories'
 }
 
 export const PodTabs = ({ podId }: { podId: string }) => {
@@ -28,7 +29,7 @@ export const PodTabs = ({ podId }: { podId: string }) => {
   const active = activeTabFromPath(location.pathname, podId)
   const containerRef = useRef<HTMLDivElement | null>(null)
   const tabRefs = useRef<Record<TabKey, HTMLAnchorElement | null>>({
-    overview: null,
+    memories: null,
     members: null,
     invites: null,
     settings: null,

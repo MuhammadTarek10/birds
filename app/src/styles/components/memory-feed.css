@@ -1,0 +1,21 @@
+@layer components {
+  .memory-feed {
+    @apply flex flex-col gap-4;
+  }
+  .memory-feed__header {
+    @apply flex items-center justify-between;
+  }
+  .memory-feed__empty {
+    @apply flex flex-col items-center justify-center py-20 text-center;
+    color: var(--color-on-surface-variant);
+  }
+  .memory-feed__sentinel {
+    @apply h-4;
+  }
+  .memory-feed__loading {
+    @apply flex justify-center py-6;
+    color: var(--color-on-surface-variant);
+    font-size: 14px;
+    font-family: var(--font-label);
+  }
+}

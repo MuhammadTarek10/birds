@@ -6,7 +6,8 @@ export class AuthSessionResponse {
   user!: UserSummaryResponse;
 
   @ApiProperty({
-    description: 'JWT to send as `Authorization: Bearer <token>` from non-cookie clients',
+    description:
+      'JWT to send as `Authorization: Bearer <token>` from non-cookie clients',
     example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
   })
   accessToken!: string;
@@ -17,9 +18,15 @@ export class AuthSessionResponse {
   })
   refreshToken!: string;
 
-  @ApiProperty({ example: 900000, description: 'Access token TTL in milliseconds' })
+  @ApiProperty({
+    example: 900000,
+    description: 'Access token TTL in milliseconds',
+  })
   accessTtlMs!: number;
 
-  @ApiProperty({ example: 2592000000, description: 'Refresh token TTL in milliseconds' })
+  @ApiProperty({
+    example: 2592000000,
+    description: 'Refresh token TTL in milliseconds',
+  })
   refreshTtlMs!: number;
 }
