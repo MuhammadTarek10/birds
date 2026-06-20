@@ -28,7 +28,7 @@ function MemoryDetailPage() {
   const [editOpen, setEditOpen] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
 
-  if (!memory) return null
+  if (!memory || !me.data) return null
 
   const isAuthor = memory.userId === me.data?.id
 
@@ -70,7 +70,7 @@ function MemoryDetailPage() {
             </Button>
           </div>
         )}
-        <CommentList memoryId={memoryId} currentUserId={me.data?.id ?? ''} />
+        <CommentList memoryId={memoryId} currentUserId={me.data.id} />
       </div>
       {isAuthor && (
         <>
