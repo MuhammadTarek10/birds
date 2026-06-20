@@ -25,7 +25,7 @@ export const memories = pgTable(
     ),
   },
   (t) => [
-    index('memories_pod_event_date_id_idx').on(t.podId, t.eventDate, t.id),
+    index('memories_pod_event_date_id_idx').on(t.podId, t.eventDate.desc(), t.id.desc()),
   ],
 );
 
