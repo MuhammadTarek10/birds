@@ -1,0 +1,44 @@
+@layer components {
+  .memory-detail {
+    @apply flex flex-col gap-8;
+    max-width: 52rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .memory-detail__header {
+    @apply flex flex-col gap-2;
+  }
+  .memory-detail__date {
+    font-family: var(--font-label);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-on-surface-variant);
+  }
+  .memory-detail__title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 28px;
+    line-height: 1.2;
+    color: var(--color-on-surface);
+  }
+  .memory-detail__meta {
+    @apply flex items-center gap-4 flex-wrap;
+    color: var(--color-on-surface-variant);
+    font-family: var(--font-label);
+    font-size: 12px;
+  }
+  .memory-detail__location {
+    @apply inline-flex items-center gap-1;
+  }
+  .memory-detail__body {
+    color: var(--color-on-surface);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+  }
+  .memory-detail__actions {
+    @apply flex items-center gap-3;
+  }
+}

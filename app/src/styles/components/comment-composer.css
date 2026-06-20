@@ -1,0 +1,27 @@
+@layer components {
+  .comment-composer {
+    @apply flex flex-col gap-3 pt-4;
+  }
+  .comment-composer__field {
+    @apply w-full min-h-20 px-4 py-3 resize-none;
+    background: color-mix(in srgb, var(--color-surface-container) 60%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-secondary) 30%, transparent);
+    border-radius: var(--radius-lg);
+    color: var(--color-on-surface);
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.5;
+    outline: none;
+    transition: border-color 200ms ease;
+  }
+  .comment-composer__field:focus {
+    border-color: var(--color-secondary);
+  }
+  .comment-composer__field::placeholder {
+    color: var(--color-on-surface-variant);
+    opacity: 0.7;
+  }
+  .comment-composer__footer {
+    @apply flex justify-end;
+  }
+}
