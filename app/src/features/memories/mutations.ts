@@ -56,7 +56,7 @@ export const useDeleteMemory = (podId: string) => {
             : prev,
       )
       queryClient.removeQueries({ queryKey: memoryKeys.detail(deletedId) })
-      await navigate({ to: '/pods/$podId', params: { podId } })
+      await navigate({ to: '/pods/$podId/memories', params: { podId } })
     },
     meta: { successMessage: 'Memory deleted' },
   })
