@@ -127,7 +127,8 @@ export class CommentsRepository extends BaseRepository {
       .returning({ id: comments.id });
 
     const result = await this.findByIdWithAuthor(inserted.id);
-    return result!;
+    if (!result) throw new Error('Failed to retrieve created comment');
+    return result;
   }
 
   async update(id: string, content: string): Promise<CommentWithAuthorRow | null> {

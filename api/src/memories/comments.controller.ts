@@ -107,10 +107,7 @@ export class CommentsController {
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateCommentDto,
   ) {
-    const comment = await this.commentsService.update(
-      id,
-      dto.content as string,
-    );
+    const comment = await this.commentsService.update(id, dto.content);
     return {
       id: comment.id,
       memoryId: comment.memoryId,

@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   CanActivate,
   ExecutionContext,
   ForbiddenException,
@@ -24,6 +25,7 @@ export class MemoryAuthorGuard implements CanActivate {
 
     const raw = req.params?.id;
     const id = Array.isArray(raw) ? raw[0] : raw;
+    if (!id) throw new BadRequestException('Missing id');
 
     const memory = await this.memoriesRepo.findById(id);
     if (!memory) throw new NotFoundException('Memory not found');

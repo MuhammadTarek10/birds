@@ -185,7 +185,8 @@ export class MemoriesRepository extends BaseRepository {
       .returning({ id: memories.id });
 
     const result = await this.findByIdWithAuthor(inserted.id);
-    return result!;
+    if (!result) throw new Error('Failed to retrieve created memory');
+    return result;
   }
 
   async update(

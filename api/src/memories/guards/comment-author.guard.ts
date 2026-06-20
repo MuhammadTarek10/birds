@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   CanActivate,
   ExecutionContext,
   ForbiddenException,
@@ -24,6 +25,7 @@ export class CommentAuthorGuard implements CanActivate {
 
     const raw = req.params?.id;
     const id = Array.isArray(raw) ? raw[0] : raw;
+    if (!id) throw new BadRequestException('Missing id');
 
     const comment = await this.commentsRepo.findById(id);
     if (!comment) throw new NotFoundException('Comment not found');

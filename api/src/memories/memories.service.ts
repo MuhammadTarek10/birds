@@ -71,6 +71,7 @@ export class MemoriesService {
   }
 
   async delete(id: string): Promise<void> {
-    await this.memoriesRepo.delete(id);
+    const deleted = await this.memoriesRepo.delete(id);
+    if (!deleted) throw new NotFoundException('Memory not found');
   }
 }

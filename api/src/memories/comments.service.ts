@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ForbiddenException,
   Injectable,
   NotFoundException,
@@ -57,12 +58,14 @@ export class CommentsService {
   }
 
   async update(id: string, content: string): Promise<CommentWithAuthorRow> {
+    if (!content) throw new BadRequestException('content is required');
     const updated = await this.commentsRepo.update(id, content);
     if (!updated) throw new NotFoundException('Comment not found');
     return updated;
   }
 
   async delete(id: string): Promise<void> {
-    await this.commentsRepo.delete(id);
+    const deleted = await this.commentsRepo.delete(id);
+    if (!deleted) throw new NotFoundException('Comment not found');
   }
 }
