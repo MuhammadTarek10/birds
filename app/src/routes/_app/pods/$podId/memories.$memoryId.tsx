@@ -22,6 +22,7 @@ export const Route = createFileRoute('/_app/pods/$podId/memories/$memoryId')({
 })
 
 function MemoryDetailPage() {
+  console.log('Rendering MemoryDetailPage')
   const { podId, memoryId } = Route.useParams()
   const me = useMe()
   const { data: memory } = useQuery(memoryDetailQuery(memoryId))

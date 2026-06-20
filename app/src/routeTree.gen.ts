@@ -24,6 +24,7 @@ import { Route as AppPodsPodIdSettingsRouteImport } from './routes/_app/pods/$po
 import { Route as AppPodsPodIdMemoriesRouteImport } from './routes/_app/pods/$podId/memories'
 import { Route as AppPodsPodIdMembersRouteImport } from './routes/_app/pods/$podId/members'
 import { Route as AppPodsPodIdInvitesRouteImport } from './routes/_app/pods/$podId/invites'
+import { Route as AppPodsPodIdMemoriesIndexRouteImport } from './routes/_app/pods/$podId/memories.index'
 import { Route as AppPodsPodIdMemoriesMemoryIdRouteImport } from './routes/_app/pods/$podId/memories.$memoryId'
 
 const AuthRouteRoute = AuthRouteRouteImport.update({
@@ -99,6 +100,12 @@ const AppPodsPodIdInvitesRoute = AppPodsPodIdInvitesRouteImport.update({
   path: '/invites',
   getParentRoute: () => AppPodsPodIdRouteRoute,
 } as any)
+const AppPodsPodIdMemoriesIndexRoute =
+  AppPodsPodIdMemoriesIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AppPodsPodIdMemoriesRoute,
+  } as any)
 const AppPodsPodIdMemoriesMemoryIdRoute =
   AppPodsPodIdMemoriesMemoryIdRouteImport.update({
     id: '/$memoryId',
@@ -121,6 +128,7 @@ export interface FileRoutesByFullPath {
   '/pods/$podId/settings': typeof AppPodsPodIdSettingsRoute
   '/pods/$podId/': typeof AppPodsPodIdIndexRoute
   '/pods/$podId/memories/$memoryId': typeof AppPodsPodIdMemoriesMemoryIdRoute
+  '/pods/$podId/memories/': typeof AppPodsPodIdMemoriesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof AppIndexRoute
@@ -132,10 +140,10 @@ export interface FileRoutesByTo {
   '/pods': typeof AppPodsIndexRoute
   '/pods/$podId/invites': typeof AppPodsPodIdInvitesRoute
   '/pods/$podId/members': typeof AppPodsPodIdMembersRoute
-  '/pods/$podId/memories': typeof AppPodsPodIdMemoriesRouteWithChildren
   '/pods/$podId/settings': typeof AppPodsPodIdSettingsRoute
   '/pods/$podId': typeof AppPodsPodIdIndexRoute
   '/pods/$podId/memories/$memoryId': typeof AppPodsPodIdMemoriesMemoryIdRoute
+  '/pods/$podId/memories': typeof AppPodsPodIdMemoriesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -155,6 +163,7 @@ export interface FileRoutesById {
   '/_app/pods/$podId/settings': typeof AppPodsPodIdSettingsRoute
   '/_app/pods/$podId/': typeof AppPodsPodIdIndexRoute
   '/_app/pods/$podId/memories/$memoryId': typeof AppPodsPodIdMemoriesMemoryIdRoute
+  '/_app/pods/$podId/memories/': typeof AppPodsPodIdMemoriesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -173,6 +182,7 @@ export interface FileRouteTypes {
     | '/pods/$podId/settings'
     | '/pods/$podId/'
     | '/pods/$podId/memories/$memoryId'
+    | '/pods/$podId/memories/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -184,10 +194,10 @@ export interface FileRouteTypes {
     | '/pods'
     | '/pods/$podId/invites'
     | '/pods/$podId/members'
-    | '/pods/$podId/memories'
     | '/pods/$podId/settings'
     | '/pods/$podId'
     | '/pods/$podId/memories/$memoryId'
+    | '/pods/$podId/memories'
   id:
     | '__root__'
     | '/_app'
@@ -206,6 +216,7 @@ export interface FileRouteTypes {
     | '/_app/pods/$podId/settings'
     | '/_app/pods/$podId/'
     | '/_app/pods/$podId/memories/$memoryId'
+    | '/_app/pods/$podId/memories/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -323,6 +334,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPodsPodIdInvitesRouteImport
       parentRoute: typeof AppPodsPodIdRouteRoute
     }
+    '/_app/pods/$podId/memories/': {
+      id: '/_app/pods/$podId/memories/'
+      path: '/'
+      fullPath: '/pods/$podId/memories/'
+      preLoaderRoute: typeof AppPodsPodIdMemoriesIndexRouteImport
+      parentRoute: typeof AppPodsPodIdMemoriesRoute
+    }
     '/_app/pods/$podId/memories/$memoryId': {
       id: '/_app/pods/$podId/memories/$memoryId'
       path: '/$memoryId'
@@ -335,10 +353,12 @@ declare module '@tanstack/react-router' {
 
 interface AppPodsPodIdMemoriesRouteChildren {
   AppPodsPodIdMemoriesMemoryIdRoute: typeof AppPodsPodIdMemoriesMemoryIdRoute
+  AppPodsPodIdMemoriesIndexRoute: typeof AppPodsPodIdMemoriesIndexRoute
 }
 
 const AppPodsPodIdMemoriesRouteChildren: AppPodsPodIdMemoriesRouteChildren = {
   AppPodsPodIdMemoriesMemoryIdRoute: AppPodsPodIdMemoriesMemoryIdRoute,
+  AppPodsPodIdMemoriesIndexRoute: AppPodsPodIdMemoriesIndexRoute,
 }
 
 const AppPodsPodIdMemoriesRouteWithChildren =
