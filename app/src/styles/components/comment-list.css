@@ -1,0 +1,45 @@
+@layer components {
+  .comment-list {
+    @apply flex flex-col;
+    border-top: 1px solid var(--color-outline-variant);
+  }
+  .comment-list__empty {
+    @apply py-8 text-center;
+    color: var(--color-on-surface-variant);
+    font-family: var(--font-label);
+    font-size: 13px;
+    font-style: italic;
+  }
+  .comment-item {
+    @apply flex flex-col gap-2 py-4;
+    border-bottom: 1px solid var(--color-outline-variant);
+  }
+  .comment-item__header {
+    @apply flex items-center justify-between;
+  }
+  .comment-item__author {
+    font-family: var(--font-label);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--color-on-surface);
+  }
+  .comment-item__time {
+    font-family: var(--font-label);
+    font-size: 11px;
+    color: var(--color-on-surface-variant);
+  }
+  .comment-item__body {
+    color: var(--color-on-surface);
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+  }
+  .comment-item__actions {
+    @apply flex items-center gap-2;
+  }
+  .comment-item--temp {
+    opacity: 0.6;
+  }
+}

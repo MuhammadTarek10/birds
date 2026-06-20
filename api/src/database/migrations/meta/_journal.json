@@ -22,6 +22,13 @@
       "when": 1780809572327,
       "tag": "0002_pod_invites",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1781943896575,
+      "tag": "0003_memories_comments_migration",
+      "breakpoints": true
     }
   ]
 }

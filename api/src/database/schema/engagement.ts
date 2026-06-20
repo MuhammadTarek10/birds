@@ -16,7 +16,7 @@ export const comments = pgTable(
   'comments',
   {
     id: uuid('id').primaryKey().defaultRandom(),
-    content: text('content'),
+    content: text('content').notNull(),
     parentCommentId: uuid('parent_comment_id').references(
       (): AnyPgColumn => comments.id,
     ),

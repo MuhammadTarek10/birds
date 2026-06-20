@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 import { InvitesModule } from './invites/invites.module';
+import { MemoriesModule } from './memories/memories.module';
 import { PodsModule } from './pods/pods.module';
 import { configuration } from './config/configuration';
 import { validateEnv } from './config/env.validation';
@@ -22,6 +23,7 @@ import { HealthModule } from './health/health.module';
     AuthModule,
     PodsModule,
     InvitesModule,
+    MemoriesModule,
     HealthModule,
   ],
   providers: [

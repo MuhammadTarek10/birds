@@ -1,0 +1,52 @@
+@layer components {
+  .memory-card {
+    @apply flex flex-col gap-3 p-6;
+    background-color: var(--color-surface-container-lowest);
+    border: 1px solid color-mix(in srgb, var(--color-secondary) 25%, transparent);
+    border-radius: var(--radius-lg);
+    border-top-left-radius: 20px 16px;
+    text-decoration: none;
+    color: inherit;
+    transition: box-shadow 250ms ease, transform 250ms ease;
+    cursor: pointer;
+  }
+  .memory-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px -12px color-mix(in srgb, var(--color-tertiary) 30%, transparent);
+  }
+  .memory-card__date {
+    font-family: var(--font-label);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-on-surface-variant);
+  }
+  .memory-card__title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 20px;
+    line-height: 1.25;
+    color: var(--color-on-surface);
+  }
+  .memory-card__location {
+    @apply inline-flex items-center gap-1;
+    font-family: var(--font-label);
+    font-size: 12px;
+    color: var(--color-on-surface-variant);
+  }
+  .memory-card__author {
+    @apply flex items-center gap-2;
+    font-family: var(--font-label);
+    font-size: 12px;
+    color: var(--color-on-surface-variant);
+    letter-spacing: 0.05em;
+    margin-top: auto;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .memory-card,
+    .memory-card:hover {
+      transform: none;
+      transition: none;
+    }
+  }
+}
